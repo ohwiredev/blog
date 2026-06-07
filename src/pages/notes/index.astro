@@ -46,7 +46,7 @@ const getImagePath = (path?: string) => {
   <!-- Filter Controls Section -->
   <section class="reveal px-margin-mobile md:px-margin-desktop pb-12 max-w-container-max mx-auto">
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-outline-variant/20 pb-6">
-      
+
       <!-- Categories Pills Group -->
       <div class="flex flex-wrap gap-2.5" id="category-pills">
         <button
@@ -90,7 +90,7 @@ const getImagePath = (path?: string) => {
           data-date={post.data.publishDate.toISOString()}
           class="note-card reveal group cursor-pointer transition-all duration-300 no-underline text-inherit block"
         >
-          <a href={`${import.meta.env.BASE_URL}notes/${post.id}`} class="no-underline text-inherit block">
+          <a href={`${import.meta.env.BASE_URL}/notes/${post.id}`} class="no-underline text-inherit block">
             <div class="relative aspect-4/3 rounded-xl overflow-hidden mb-6 shadow-[0_10px_30px_rgba(0,0,0,0.04)] transition-all duration-300 group-hover:-translate-y-2 group-hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)]">
               {post.data.image && (
                 <Image
@@ -149,14 +149,14 @@ const getImagePath = (path?: string) => {
       color: var(--color-secondary);
       border: 1px solid rgba(227, 191, 178, 0.1);
     }
-    
+
     .category-pill:hover {
       background-color: var(--color-surface-variant);
       color: var(--color-on-surface);
       border-color: rgba(227, 191, 178, 0.3);
       transform: translateY(-1px);
     }
-    
+
     .category-pill.active {
       background-color: var(--color-primary);
       color: var(--color-on-secondary);
@@ -201,7 +201,7 @@ const getImagePath = (path?: string) => {
     // Parse URL params on load
     function initFiltersFromUrl() {
       const params = new URLSearchParams(window.location.search);
-      
+
       const cat = params.get('category');
       if (cat) {
         activeCategory = cat;
@@ -214,12 +214,12 @@ const getImagePath = (path?: string) => {
           }
         });
       }
-      
+
       const sort = params.get('sort');
       if (sort && (sort === 'newest' || sort === 'oldest')) {
         sortOrder = sort;
       }
-      
+
       updateSortUI();
       applyFilters();
     }
@@ -229,7 +229,7 @@ const getImagePath = (path?: string) => {
       const params = new URLSearchParams();
       if (activeCategory !== 'all') params.set('category', activeCategory);
       if (sortOrder !== 'newest') params.set('sort', sortOrder);
-      
+
       const newRelativePathQuery = window.location.pathname + (params.toString() ? '?' + params.toString() : '');
       window.history.replaceState(null, '', newRelativePathQuery);
     }
@@ -281,7 +281,7 @@ const getImagePath = (path?: string) => {
       if (!notesGrid) return;
 
       const cardsArray = Array.from(noteCards);
-      
+
       cardsArray.sort((a, b) => {
         const dateA = new Date(a.getAttribute('data-date') || 0).getTime();
         const dateB = new Date(b.getAttribute('data-date') || 0).getTime();
@@ -313,7 +313,7 @@ const getImagePath = (path?: string) => {
         categoryPills.forEach(p => p.classList.remove('active'));
         const target = e.currentTarget as HTMLButtonElement;
         target.classList.add('active');
-        
+
         activeCategory = target.getAttribute('data-category') || 'all';
         updateUrlParams();
         applyFilters();
@@ -326,7 +326,7 @@ const getImagePath = (path?: string) => {
         sortOrder = 'newest';
 
         updateSortUI();
-        
+
         categoryPills.forEach(pill => {
           if (pill.getAttribute('data-category') === 'all') {
             pill.classList.add('active');

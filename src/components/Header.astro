@@ -34,7 +34,7 @@ const isNotes =
             ? "bg-primary/10 text-primary dark:bg-primary-container/15 dark:text-primary-container font-semibold"
             : "text-secondary dark:text-secondary-fixed-dim hover:text-primary dark:hover:text-primary-container hover:bg-secondary/5 dark:hover:bg-secondary-container/10"
         }`}
-        href={`${import.meta.env.BASE_URL}notes`}
+        href={`${import.meta.env.BASE_URL}/notes`}
       >
         Notes
       </a>
@@ -53,7 +53,7 @@ const isNotes =
           </svg>
         </a>
       </div>
-      <Button href={`${import.meta.env.BASE_URL}#newsletter-section`} variant="primary" size="sm">
+      <Button href={`${import.meta.env.BASE_URL}/#newsletter-section`} variant="primary" size="sm">
         Subscribe
       </Button>
       <button class="md:hidden text-on-surface cursor-pointer" id="mobile-menu-btn">
@@ -80,7 +80,7 @@ const isNotes =
     class={`text-[32px] font-display-lg no-underline transition-colors duration-200 ${
       isNotes ? "text-primary font-bold" : "text-on-surface hover:text-primary"
     }`}
-    href={`${import.meta.env.BASE_URL}notes`}
+    href={`${import.meta.env.BASE_URL}/notes`}
   >
     Notes
   </a>
