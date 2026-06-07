@@ -3,7 +3,9 @@ import { Menu, X } from "@lucide/astro";
 import Button from "./Button.astro";
 
 const { pathname } = Astro.url;
-const normalizedPathname = pathname.replace(/\/$/, "");
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
+const relativePathname = baseUrl ? pathname.replace(baseUrl, "") : pathname;
+const normalizedPathname = relativePathname.replace(/\/$/, "");
 
 const isHome =
 	normalizedPathname === "" || normalizedPathname === "/index.html";
@@ -12,7 +14,7 @@ const isNotes =
 ---
 <nav class="bg-surface dark:bg-background docked full-width top-0 z-50 fixed w-full border-b border-outline-variant/30">
   <div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto h-20">
-    <a href="/" class="font-display-lg text-[32px] text-primary dark:text-primary-container cursor-pointer leading-none select-none no-underline">
+    <a href={import.meta.env.BASE_URL} class="font-display-lg text-[32px] text-primary dark:text-primary-container cursor-pointer leading-none select-none no-underline">
       ohwire
     </a>
     <div class="hidden md:flex items-center space-x-2">
@@ -22,7 +24,7 @@ const isNotes =
             ? "bg-primary/10 text-primary dark:bg-primary-container/15 dark:text-primary-container font-semibold"
             : "text-secondary dark:text-secondary-fixed-dim hover:text-primary dark:hover:text-primary-container hover:bg-secondary/5 dark:hover:bg-secondary-container/10"
         }`}
-        href="/"
+        href={import.meta.env.BASE_URL}
       >
         Home
       </a>
@@ -32,7 +34,7 @@ const isNotes =
             ? "bg-primary/10 text-primary dark:bg-primary-container/15 dark:text-primary-container font-semibold"
             : "text-secondary dark:text-secondary-fixed-dim hover:text-primary dark:hover:text-primary-container hover:bg-secondary/5 dark:hover:bg-secondary-container/10"
         }`}
-        href="/notes"
+        href={`${import.meta.env.BASE_URL}notes`}
       >
         Notes
       </a>
@@ -51,7 +53,7 @@ const isNotes =
           </svg>
         </a>
       </div>
-      <Button href="/#newsletter-section" variant="primary" size="sm">
+      <Button href={`${import.meta.env.BASE_URL}#newsletter-section`} variant="primary" size="sm">
         Subscribe
       </Button>
       <button class="md:hidden text-on-surface cursor-pointer" id="mobile-menu-btn">
@@ -70,7 +72,7 @@ const isNotes =
     class={`text-[32px] font-display-lg no-underline transition-colors duration-200 ${
       isHome ? "text-primary font-bold" : "text-on-surface hover:text-primary"
     }`}
-    href="/"
+    href={import.meta.env.BASE_URL}
   >
     Home
   </a>
@@ -78,7 +80,7 @@ const isNotes =
     class={`text-[32px] font-display-lg no-underline transition-colors duration-200 ${
       isNotes ? "text-primary font-bold" : "text-on-surface hover:text-primary"
     }`}
-    href="/notes"
+    href={`${import.meta.env.BASE_URL}notes`}
   >
     Notes
   </a>
