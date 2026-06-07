@@ -52,10 +52,12 @@ for (const note of allNotes) {
 
 const relatedNotes = allNotes.filter((note) => note.id !== post.id).slice(0, 2); // Get first 2 related articles
 
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
+
 const getImagePath = (path?: string) => {
 	if (!path) return "";
 	if (path.startsWith("/")) {
-		return `${import.meta.env.BASE_URL.replace(/\/$/, "")}${path}`;
+		return `${baseUrl}${path}`;
 	}
 	return path;
 };
@@ -72,7 +74,7 @@ const getImagePath = (path?: string) => {
     <nav class="flex items-center gap-2 text-label-md font-label-md text-secondary">
       <a class="hover:text-primary transition-colors no-underline" href={import.meta.env.BASE_URL}>Home</a>
       <ChevronRight class="w-3 h-3 select-none" />
-      <a class="hover:text-primary transition-colors no-underline" href={`${import.meta.env.BASE_URL}/notes?category=${post.data.category}`}>{post.data.category}</a>
+      <a class="hover:text-primary transition-colors no-underline" href={`${baseUrl}/notes?category=${post.data.category}`}>{post.data.category}</a>
       <ChevronRight class="w-3 h-3 select-none" />
       <span class="text-on-surface truncate max-w-50 md:max-w-none">{post.data.title}</span>
     </nav>
@@ -131,7 +133,7 @@ const getImagePath = (path?: string) => {
 
       <!-- Footer Article Navigation -->
       <div class="mt-section-gap pt-12 border-t border-outline-variant flex flex-col md:flex-row justify-between items-center gap-8">
-        <a class="flex items-center gap-2 font-label-md text-label-md text-primary hover:gap-4 transition-all duration-300 no-underline cursor-pointer" href={`${import.meta.env.BASE_URL}notes`}>
+        <a class="flex items-center gap-2 font-label-md text-label-md text-primary hover:gap-4 transition-all duration-300 no-underline cursor-pointer" href={`${baseUrl}/notes`}>
           <ArrowLeft class="w-5 h-5" />
           Back to all notes
         </a>
@@ -155,7 +157,7 @@ const getImagePath = (path?: string) => {
     <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
       <div class="flex justify-between items-end mb-12">
         <h2 class="font-headline-md text-headline-md text-on-surface">More to read</h2>
-        <a class="font-label-md text-label-md text-primary border-b border-primary pb-1 no-underline" href={`${import.meta.env.BASE_URL}/notes`}>View Archives</a>
+        <a class="font-label-md text-label-md text-primary border-b border-primary pb-1 no-underline" href={`${baseUrl}/notes`}>View Archives</a>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
@@ -180,7 +182,7 @@ const getImagePath = (path?: string) => {
               <p class="font-body-md text-body-md text-secondary mb-6 line-clamp-2">
                 {note.data.description}
               </p>
-              <a class="font-label-md text-label-md text-on-surface flex items-center gap-2 hover:text-primary transition-colors no-underline mt-auto" href={`${import.meta.env.BASE_URL}/notes/${note.id}`}>
+              <a class="font-label-md text-label-md text-on-surface flex items-center gap-2 hover:text-primary transition-colors no-underline mt-auto" href={`${baseUrl}/notes/${note.id}`}>
                 Read more <ArrowUpRight class="w-4 h-4" />
               </a>
             </div>
