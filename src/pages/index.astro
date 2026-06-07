@@ -3,10 +3,20 @@ import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
 import Button from "../components/Button.astro";
 import Newsletter from "../components/Newsletter.astro";
+import { CATEGORIES, isValidCategory } from "../config/categories";
 import Layout from "../layouts/Layout.astro";
 
 // Fetch all notes from content collection
 const allNotes = await getCollection("notes");
+
+// Validate categories at build/run time
+for (const note of allNotes) {
+	if (!isValidCategory(note.data.category)) {
+		throw new Error(
+			`[Invalid Category] The blog post "${note.id}" has an invalid category "${note.data.category}". Allowed categories are: ${CATEGORIES.join(", ")}`,
+		);
+	}
+}
 
 // Sort notes by publish date (newest first)
 const recentNotes = allNotes

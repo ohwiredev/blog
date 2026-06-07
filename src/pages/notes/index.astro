@@ -1,0 +1,355 @@
+---
+import { Image } from "astro:assets";
+import { getCollection } from "astro:content";
+import { ArrowUpDown, Frown } from "@lucide/astro";
+import Newsletter from "../../components/Newsletter.astro";
+import { CATEGORIES, isValidCategory } from "../../config/categories";
+import Layout from "../../layouts/Layout.astro";
+
+// Fetch all notes from content collection
+const allNotes = await getCollection("notes");
+
+// Validate categories at build/run time
+for (const note of allNotes) {
+	if (!isValidCategory(note.data.category)) {
+		throw new Error(
+			`[Invalid Category] The blog post "${note.id}" has an invalid category "${note.data.category}". Allowed categories are: ${CATEGORIES.join(", ")}`,
+		);
+	}
+}
+
+// Sort notes by publish date (newest first) by default
+const sortedNotes = [...allNotes].sort(
+	(a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf(),
+);
+---
+
+<Layout title="Notes & Tutorials | ohwire" description="A collection of engineering write-ups, tool thoughts, and developer setups.">
+  <!-- Header Section -->
+  <section class="px-margin-mobile md:px-margin-desktop py-12 md:py-16 flex flex-col items-center text-center max-w-container-max mx-auto">
+    <h1 class="font-display-lg text-[40px] leading-12 md:text-display-lg/18 mb-4 max-w-200 opacity-0 animate-fade-up">
+      Notes & Tutorials
+    </h1>
+    <p class="font-body-lg text-body-lg text-secondary max-w-150 mb-10 opacity-0 animate-fade-up delay-100">
+      A collection of personal engineering notes, reviews of newly launched tools, and daily workflows.
+    </p>
+  </section>
+
+  <!-- Filter Controls Section -->
+  <section class="reveal px-margin-mobile md:px-margin-desktop pb-12 max-w-container-max mx-auto">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-outline-variant/20 pb-6">
+      
+      <!-- Categories Pills Group -->
+      <div class="flex flex-wrap gap-2.5" id="category-pills">
+        <button
+          data-category="all"
+          class="category-pill active px-5 py-2 rounded-full font-label-md text-[13px] uppercase tracking-wider transition-all duration-300 cursor-pointer select-none border border-outline-variant/10 hover:border-outline-variant/30"
+        >
+          All
+        </button>
+        {CATEGORIES.map((cat) => (
+          <button
+            data-category={cat}
+            class="category-pill px-5 py-2 rounded-full font-label-md text-[13px] uppercase tracking-wider transition-all duration-300 cursor-pointer select-none border border-outline-variant/10 hover:border-outline-variant/30"
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
+
+      <!-- Custom Sort Toggle Button -->
+      <button
+        id="sort-toggle-btn"
+        class="flex items-center gap-2 self-end sm:self-auto bg-surface-container-low/60 dark:bg-surface-container-lowest/30 border border-outline-variant/10 hover:border-outline-variant/30 rounded-full px-5 py-2.5 font-label-md text-[13px] uppercase tracking-wider text-secondary hover:text-on-surface transition-all duration-300 cursor-pointer select-none"
+        aria-label="Toggle sort order"
+      >
+        <ArrowUpDown id="sort-icon" class="w-4 h-4 transition-transform duration-500 ease-out" />
+        <span id="sort-text">Newest First</span>
+      </button>
+
+    </div>
+  </section>
+
+  <!-- Notes Grid Section -->
+  <section class="px-margin-mobile md:px-margin-desktop pb-section-gap max-w-container-max mx-auto">
+    <!-- Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter" id="notes-grid">
+      {sortedNotes.map((post) => (
+        <article
+          data-category={post.data.category}
+          data-title={post.data.title.toLowerCase()}
+          data-description={post.data.description.toLowerCase()}
+          data-date={post.data.publishDate.toISOString()}
+          class="note-card reveal group cursor-pointer transition-all duration-300 no-underline text-inherit block"
+        >
+          <a href={`/notes/${post.id}`} class="no-underline text-inherit block">
+            <div class="relative aspect-4/3 rounded-xl overflow-hidden mb-6 shadow-[0_10px_30px_rgba(0,0,0,0.04)] transition-all duration-300 group-hover:-translate-y-2 group-hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)]">
+              {post.data.image && (
+                <Image
+                  class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  alt={post.data.imageAlt || post.data.title}
+                  src={post.data.image}
+                  width={800}
+                  height={600}
+                />
+              )}
+              <div class="absolute top-4 left-4">
+                <span class="bg-surface/90 backdrop-blur px-3 py-1 rounded-full font-label-md text-[12px] uppercase tracking-widest text-on-surface">
+                  {post.data.category}
+                </span>
+              </div>
+            </div>
+            <h3 class="font-headline-sm text-headline-sm mb-3 group-hover:text-primary transition-colors">
+              {post.data.title}
+            </h3>
+            <p class="font-body-md text-body-md text-secondary line-clamp-2 mb-3">
+              {post.data.description}
+            </p>
+            <p class="font-label-md text-[12px] text-secondary/70 uppercase tracking-wider">
+              {post.data.publishDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+            </p>
+          </a>
+        </article>
+      ))}
+    </div>
+
+    <!-- Empty State -->
+    <div id="no-results-state" class="hidden flex-col items-center justify-center py-20 px-4 text-center bg-white/30 dark:bg-surface-container-lowest/30 backdrop-blur border border-outline-variant/30 rounded-2xl reveal">
+      <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-6">
+        <Frown class="w-8 h-8" />
+      </div>
+      <h3 class="font-headline-sm text-headline-sm mb-2 text-on-surface">No notes match your filters</h3>
+      <p class="font-body-md text-body-md text-secondary max-w-sm mb-8">
+        Try adjusting your keywords or category filter to find what you are looking for.
+      </p>
+      <button
+        id="clear-filters-btn"
+        class="bg-primary-container text-white hover:bg-primary active:bg-primary/90 rounded-full font-label-md text-label-md px-8 py-3 shadow-md hover:shadow-lg transition-all cursor-pointer"
+      >
+        Clear all filters
+      </button>
+    </div>
+  </section>
+
+  <!-- Newsletter Section -->
+  <Newsletter id="newsletter-section" />
+
+  <style>
+    /* Premium Individual Pill Styles */
+    .category-pill {
+      background-color: var(--color-surface-container-low);
+      color: var(--color-secondary);
+      border: 1px solid rgba(227, 191, 178, 0.1);
+    }
+    
+    .category-pill:hover {
+      background-color: var(--color-surface-variant);
+      color: var(--color-on-surface);
+      border-color: rgba(227, 191, 178, 0.3);
+      transform: translateY(-1px);
+    }
+    
+    .category-pill.active {
+      background-color: var(--color-primary);
+      color: var(--color-on-secondary);
+      border-color: var(--color-primary);
+      box-shadow: 0 4px 12px rgba(169, 56, 0, 0.25);
+    }
+
+    /* Rotate sort icon transition */
+    .rotate-180 {
+      transform: rotate(180deg);
+    }
+  </style>
+
+  <script>
+    // Filtering logic state
+    let activeCategory = 'all';
+    let sortOrder = 'newest';
+
+    const categoryPills = document.querySelectorAll('.category-pill');
+    const noteCards = document.querySelectorAll('.note-card');
+    const noResultsState = document.getElementById('no-results-state');
+    const notesGrid = document.getElementById('notes-grid');
+    const clearFiltersBtn = document.getElementById('clear-filters-btn');
+    const sortToggleBtn = document.getElementById('sort-toggle-btn');
+    const sortText = document.getElementById('sort-text');
+    const sortIcon = document.getElementById('sort-icon');
+
+    // Update the sort button state visually
+    function updateSortUI() {
+      if (sortText) {
+        sortText.textContent = sortOrder === 'newest' ? 'Newest First' : 'Oldest First';
+      }
+      if (sortIcon) {
+        if (sortOrder === 'oldest') {
+          sortIcon.classList.add('rotate-180');
+        } else {
+          sortIcon.classList.remove('rotate-180');
+        }
+      }
+    }
+
+    // Parse URL params on load
+    function initFiltersFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      
+      const cat = params.get('category');
+      if (cat) {
+        activeCategory = cat;
+        categoryPills.forEach(pill => {
+          const pillCat = pill.getAttribute('data-category');
+          if (pillCat?.toLowerCase() === cat.toLowerCase()) {
+            pill.classList.add('active');
+          } else {
+            pill.classList.remove('active');
+          }
+        });
+      }
+      
+      const sort = params.get('sort');
+      if (sort && (sort === 'newest' || sort === 'oldest')) {
+        sortOrder = sort;
+      }
+      
+      updateSortUI();
+      applyFilters();
+    }
+
+    // Update URL parameters dynamically
+    function updateUrlParams() {
+      const params = new URLSearchParams();
+      if (activeCategory !== 'all') params.set('category', activeCategory);
+      if (sortOrder !== 'newest') params.set('sort', sortOrder);
+      
+      const newRelativePathQuery = window.location.pathname + (params.toString() ? '?' + params.toString() : '');
+      window.history.replaceState(null, '', newRelativePathQuery);
+    }
+
+    // Main filter function
+    function applyFilters() {
+      let visibleCount = 0;
+
+      noteCards.forEach((card) => {
+        const htmlCard = card as HTMLElement;
+        const category = htmlCard.getAttribute('data-category') || '';
+
+        const matchesCategory = activeCategory === 'all' || category.toLowerCase() === activeCategory.toLowerCase();
+
+        if (matchesCategory) {
+          htmlCard.classList.remove('hidden');
+          // Stagger fade-in animation
+          setTimeout(() => {
+            htmlCard.style.opacity = '1';
+            htmlCard.style.transform = 'translateY(0)';
+          }, visibleCount * 50);
+          visibleCount++;
+        } else {
+          htmlCard.classList.add('hidden');
+          htmlCard.style.opacity = '0';
+          htmlCard.style.transform = 'translateY(10px)';
+        }
+      });
+
+      // Handle Sorting
+      sortCards();
+
+      // Handle empty state visibility
+      if (visibleCount === 0) {
+        notesGrid?.classList.add('hidden');
+        noResultsState?.classList.remove('hidden');
+        setTimeout(() => {
+          noResultsState?.classList.add('active');
+        }, 50);
+      } else {
+        notesGrid?.classList.remove('hidden');
+        noResultsState?.classList.add('hidden');
+        noResultsState?.classList.remove('active');
+      }
+    }
+
+    // Sorting function
+    function sortCards() {
+      if (!notesGrid) return;
+
+      const cardsArray = Array.from(noteCards);
+      
+      cardsArray.sort((a, b) => {
+        const dateA = new Date(a.getAttribute('data-date') || 0).getTime();
+        const dateB = new Date(b.getAttribute('data-date') || 0).getTime();
+
+        if (sortOrder === 'newest') {
+          return dateB - dateA;
+        } else {
+          return dateA - dateB;
+        }
+      });
+
+      // Re-append cards to grid in correct sorted order
+      cardsArray.forEach(card => {
+        notesGrid.appendChild(card);
+      });
+    }
+
+    if (sortToggleBtn) {
+      sortToggleBtn.addEventListener('click', () => {
+        sortOrder = sortOrder === 'newest' ? 'oldest' : 'newest';
+        updateSortUI();
+        updateUrlParams();
+        applyFilters();
+      });
+    }
+
+    categoryPills.forEach(pill => {
+      pill.addEventListener('click', (e) => {
+        categoryPills.forEach(p => p.classList.remove('active'));
+        const target = e.currentTarget as HTMLButtonElement;
+        target.classList.add('active');
+        
+        activeCategory = target.getAttribute('data-category') || 'all';
+        updateUrlParams();
+        applyFilters();
+      });
+    });
+
+    if (clearFiltersBtn) {
+      clearFiltersBtn.addEventListener('click', () => {
+        activeCategory = 'all';
+        sortOrder = 'newest';
+
+        updateSortUI();
+        
+        categoryPills.forEach(pill => {
+          if (pill.getAttribute('data-category') === 'all') {
+            pill.classList.add('active');
+          } else {
+            pill.classList.remove('active');
+          }
+        });
+
+        updateUrlParams();
+        applyFilters();
+      });
+    }
+
+    // Initialize on page load
+    initFiltersFromUrl();
+
+    // Intersection observer for entrance animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</Layout>
