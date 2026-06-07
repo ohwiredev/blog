@@ -1,0 +1,53 @@
+---
+interface Props {
+	href?: string;
+	variant?: "primary" | "outline";
+	size?: "sm" | "md" | "lg";
+	type?: "button" | "submit" | "reset";
+	class?: string;
+	// biome-ignore lint/suspicious/noExplicitAny: allow any for arbitrary HTML attributes
+	[key: string]: any;
+}
+
+const {
+	href,
+	variant = "primary",
+	size = "md",
+	type = "button",
+	class: className = "",
+	...rest
+} = Astro.props;
+
+// Base style mapping
+const baseClasses =
+	"rounded-full font-label-md text-label-md transition-all cursor-pointer no-underline inline-block text-center select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2";
+
+// Variant styling
+const variants = {
+	primary:
+		"bg-primary-container text-white hover:bg-primary active:bg-primary/90 shadow-md hover:shadow-lg",
+	outline:
+		"border border-primary text-primary hover:bg-primary/10 active:bg-primary/20",
+};
+
+// Size configurations
+const sizes = {
+	sm: "px-6 py-2",
+	md: "px-8 py-3",
+	lg: "px-10 py-4",
+};
+
+const classes = `${baseClasses} ${variants[variant]} ${sizes[size]} ${className}`;
+---
+
+{
+  href ? (
+    <a href={href} class={classes} {...rest}>
+      <slot />
+    </a>
+  ) : (
+    <button type={type} class={classes} {...rest}>
+      <slot />
+    </button>
+  )
+}

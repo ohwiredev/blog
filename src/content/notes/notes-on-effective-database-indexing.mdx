@@ -1,0 +1,39 @@
+---
+title: "Notes on Effective Database Indexing"
+description: "A quick cheat-sheet on indexing patterns, cover indexes, and avoiding common performance bottlenecks in relational databases."
+publishDate: "2026-06-05"
+author: "ohwire"
+authorImage: "/ohwire_pfp.jpeg"
+category: "Notes"
+image: "/database_indexing.png"
+imageAlt: "A high tech abstract database node connection graph"
+featured: false
+---
+
+Slow queries are the bane of any application. While most developers know they need to add indexes, they often add them blindly. Here are my personal reference notes on how to index Postgres/MySQL databases effectively.
+
+## 1. The Power of Composite Indexes
+
+When you filter by multiple columns in a query (e.g., `WHERE status = 'active' AND user_id = 42`), adding separate indexes on `status` and `user_id` is inefficient. Instead, use a composite index:
+
+```sql
+CREATE INDEX idx_users_status_id ON users (status, user_id);
+```
+
+**Rule of thumb**: Order matters. Put the column with the highest selectivity (the one that filters out the most rows, like `user_id`) first in the index.
+
+## 2. Covering Indexes (Index-Only Scans)
+
+An index search usually has two steps: finding the row pointer in the index, then fetching the actual row data from the table. If your index contains all the columns your query selects, the database can skip the second step entirely. This is called an **Index-Only Scan**.
+
+In PostgreSQL, you can use the `INCLUDE` clause to add columns to the index payload without making them part of the search key:
+
+```sql
+CREATE INDEX idx_orders_user ON orders (user_id) INCLUDE (total_price);
+```
+
+## 3. Avoid Indexing High-Volatility Columns
+
+Indexes must be updated every time a row is inserted, updated, or deleted. If you index a column that changes constantly (like `last_active_at` or a counter), the write overhead can slow down your entire application.
+
+Only index columns that are frequently used in `WHERE`, `JOIN`, or `ORDER BY` clauses and have relatively low write volatility.

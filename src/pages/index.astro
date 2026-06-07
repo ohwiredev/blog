@@ -1,0 +1,110 @@
+---
+import { Image } from "astro:assets";
+import { getCollection } from "astro:content";
+import Button from "../components/Button.astro";
+import Newsletter from "../components/Newsletter.astro";
+import Layout from "../layouts/Layout.astro";
+
+// Fetch all notes from content collection
+const allNotes = await getCollection("notes");
+
+// Sort notes by publish date (newest first)
+const recentNotes = allNotes
+	.sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf())
+	.slice(0, 3);
+---
+
+<Layout title="ohwire | Notes, new tools & daily setups">
+  <!-- Hero Section -->
+  <section class="px-margin-mobile md:px-margin-desktop py-12 md:py-20 flex flex-col items-center text-center max-w-container-max mx-auto">
+    <h1 class="font-display-lg text-[40px] leading-12 md:text-display-lg/18 mb-6 max-w-200 opacity-0 animate-fade-up">
+      Project notes, tech tutorials, and developer tips that <span class="text-primary italic">actually</span> work.
+    </h1>
+    <p class="font-body-lg text-body-lg text-secondary max-w-150 mb-10 opacity-0 animate-fade-up delay-100">
+      A personal space where I document my engineering notes, review newly launched tools, and catalog the workflows and software I use daily.
+    </p>
+    <div class="flex flex-col sm:flex-row gap-4 opacity-0 animate-fade-up delay-200">
+      <Button href="#blog-section" variant="primary" size="lg">
+        Browse notes
+      </Button>
+      <Button href="#newsletter-section" variant="outline" size="lg">
+        Stay updated
+      </Button>
+    </div>
+  </section>
+
+  <!-- Featured Image Section -->
+  <section class="reveal px-margin-mobile md:px-margin-desktop pb-section-gap max-w-container-max mx-auto">
+    <div class="relative w-full aspect-21/9 rounded-xl overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.04)]">
+      <Image
+        class="w-full h-full object-cover"
+        alt="A ultra-minimalist, architectural workspace with a single laptop on a clean white desk. The lighting is soft morning light. The scene captures a professional and calm atmosphere with a primary orange accent piece."
+        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCsljA-_epIh1-Ny8m9uCx6LAFNPzcSbzqEiz2Q7r4YMcVX60C5-PtUnJyUuH5oZnUIryHZEI7dzPLzqfC4RcuihhGBbfok1EvDiXFG8jy22x7sKmtn3fNkq-0ORKsy9ooI3Siq9kJ6i5qtYGD4ukQSbR3Z_j2SGbycIiXzwbfG0cvNAhkM1x1XYNq0ot2_zim-8NKp_v2o4zVfuaaQT4QxR1RanHP6fad8pu7HH0Z-O33_6i_bp2bnX0LfVAeNoesT5VGxLRji6ut"
+        width={1200}
+        height={514}
+      />
+    </div>
+  </section>
+
+  <!-- Blog Grid Section -->
+  <section id="blog-section" class="px-margin-mobile md:px-margin-desktop pb-section-gap max-w-container-max mx-auto scroll-mt-24">
+    <div class="reveal flex justify-between items-end mb-12">
+      <h2 class="font-headline-md text-headline-md">Recent Notes</h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter" id="blog-grid">
+      {recentNotes.map((post) => (
+        <a href={`/notes/${post.id}`} class="reveal group cursor-pointer transition-all duration-300 no-underline text-inherit block">
+          <div class="relative aspect-4/3 rounded-xl overflow-hidden mb-6 shadow-[0_10px_30px_rgba(0,0,0,0.04)] transition-all duration-300 group-hover:-translate-y-2 group-hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)]">
+            <Image
+              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              alt={post.data.imageAlt || post.data.title}
+              src={post.data.image}
+              width={800}
+              height={600}
+            />
+            <div class="absolute top-4 left-4">
+              <span class="bg-surface/90 backdrop-blur px-3 py-1 rounded-full font-label-md text-[12px] uppercase tracking-widest text-on-surface">
+                {post.data.category}
+              </span>
+            </div>
+          </div>
+          <h3 class="font-headline-sm text-headline-sm mb-3 group-hover:text-primary transition-colors">
+            {post.data.title}
+          </h3>
+          <p class="font-body-md text-body-md text-secondary line-clamp-2">
+            {post.data.description}
+          </p>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <!-- Newsletter Section -->
+  <Newsletter id="newsletter-section" />
+
+  <script>
+    // Intersection observer for reveal animations with staggered delay
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      let delay = 0;
+      const currentEntries = entries.filter(e => e.isIntersecting);
+
+      currentEntries.forEach((entry, index) => {
+        // If they are part of a grid, stagger them
+        const isGridItem = entry.target.parentElement?.id === 'blog-grid';
+
+        setTimeout(() => {
+          entry.target.classList.add('active');
+          observer.unobserve(entry.target);
+        }, isGridItem ? index * 150 : 0);
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</Layout>

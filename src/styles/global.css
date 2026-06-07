@@ -1,0 +1,163 @@
+@import url("https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,600;0,700;1,400&family=Instrument+Serif:ital@0;1&display=swap");
+@import "tailwindcss";
+
+@theme {
+	--color-secondary-fixed: #e5e2e1;
+	--color-surface-dim: #dadada;
+	--color-inverse-on-surface: #f1f1f1;
+	--color-primary-fixed-dim: #ffb59b;
+	--color-surface: #f9f9f9;
+	--color-secondary-fixed-dim: #c8c6c5;
+	--color-surface-container: #eeeeee;
+	--color-on-surface: #1a1c1c;
+	--color-inverse-primary: #ffb59b;
+	--color-outline: #8f7066;
+	--color-surface-container-high: #e8e8e8;
+	--color-on-background: #1a1c1c;
+	--color-primary: #a93800;
+	--color-surface-variant: #e2e2e2;
+	--color-on-secondary: #ffffff;
+	--color-tertiary-fixed-dim: #98cbff;
+	--color-on-secondary-container: #636262;
+	--color-on-primary-fixed-variant: #812900;
+	--color-outline-variant: #e3bfb2;
+	--color-tertiary-fixed: #cee5ff;
+	--color-error-container: #ffdad6;
+	--color-surface-container-low: #f3f3f3;
+	--color-on-tertiary: #ffffff;
+	--color-secondary: #5f5e5e;
+	--color-surface-tint: #a93800;
+	--color-surface-container-lowest: #ffffff;
+	--color-on-tertiary-container: #002f4e;
+	--color-on-tertiary-fixed: #001d33;
+	--color-surface-container-highest: #e2e2e2;
+	--color-on-tertiary-fixed-variant: #004a77;
+	--color-on-primary-container: #551800;
+	--color-surface-bright: #f9f9f9;
+	--color-on-secondary-fixed-variant: #474746;
+	--color-primary-fixed: #ffdbcf;
+	--color-on-error-container: #93000a;
+	--color-secondary-container: #e2dfde;
+	--color-background: #f9f9f9;
+	--color-error: #ba1a1a;
+	--color-on-primary-fixed: #380d00;
+	--color-primary-container: #ff5f15;
+	--color-on-surface-variant: #5b4138;
+	--color-on-error: #ffffff;
+	--color-on-secondary-fixed: #1c1b1b;
+	--color-inverse-surface: #2f3131;
+	--color-tertiary: #00639c;
+	--color-tertiary-container: #009af0;
+	--color-on-primary: #ffffff;
+
+	--radius-default: 0.25rem;
+	--radius-lg: 0.5rem;
+	--radius-xl: 0.75rem;
+	--radius-full: 9999px;
+
+	--spacing-section-gap: 120px;
+	--spacing-container-max: 1120px;
+	--spacing-base: 8px;
+	--spacing-gutter: 24px;
+	--spacing-margin-desktop: 64px;
+	--spacing-margin-mobile: 20px;
+
+	--font-display-lg: "Instrument Serif", serif;
+	--font-label-md: "Instrument Sans", sans-serif;
+	--font-display-lg-mobile: "Instrument Serif", serif;
+	--font-headline-sm: "Instrument Serif", serif;
+	--font-headline-md: "Instrument Serif", serif;
+	--font-body-lg: "Instrument Sans", sans-serif;
+	--font-body-md: "Instrument Sans", sans-serif;
+
+	--text-display-lg: 64px;
+	--text-display-lg--font-weight: 400;
+
+	--text-label-md: 14px;
+	--text-label-md--font-weight: 600;
+
+	--text-display-lg-mobile: 40px;
+	--text-display-lg-mobile--font-weight: 400;
+
+	--text-headline-sm: 24px;
+	--text-headline-sm--font-weight: 400;
+
+	--text-headline-md: 32px;
+	--text-headline-md--font-weight: 400;
+
+	--text-body-lg: 18px;
+	--text-body-lg--font-weight: 400;
+
+	--text-body-md: 16px;
+	--text-body-md--font-weight: 400;
+}
+
+body {
+	background-color: var(--color-background);
+	color: var(--color-on-background);
+	-webkit-font-smoothing: antialiased;
+}
+
+.reveal {
+	opacity: 0;
+	transform: translateY(20px);
+	transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal.active {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+.content-column {
+	max-width: 720px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.ambient-shadow {
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+}
+
+.card-hover:hover {
+	box-shadow: 0 15px 40px rgba(0, 0, 0, 0.06);
+	transform: translateY(-2px);
+}
+
+/* Entrance Animations */
+@keyframes fadeUp {
+	from {
+		opacity: 0;
+		transform: translateY(30px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.animate-fade-up {
+	animation: fadeUp 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.delay-100 {
+	animation-delay: 0.1s;
+}
+.delay-200 {
+	animation-delay: 0.2s;
+}
+.delay-300 {
+	animation-delay: 0.3s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.reveal,
+	.animate-fade-up,
+	.transition-transform,
+	.group-hover\:-translate-y-2 {
+		transition: none !important;
+		animation: none !important;
+		transform: none !important;
+		opacity: 1 !important;
+	}
+}

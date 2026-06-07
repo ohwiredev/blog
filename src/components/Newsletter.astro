@@ -1,0 +1,61 @@
+---
+import Button from "./Button.astro";
+
+interface Props {
+	variant?: "section" | "card";
+	title?: string;
+	description?: string;
+	id?: string;
+	class?: string;
+}
+
+const {
+	variant = "section",
+	title = variant === "section" ? "Stay updated." : "Join the fold",
+	description = variant === "section"
+		? "Join the newsletter for weekly developer notes, tooling tips, and workflow reviews."
+		: "Get our weekly editorial on technology, design, and culture delivered straight to your inbox.",
+	id,
+	class: className = "",
+} = Astro.props;
+---
+
+{
+  variant === 'section' ? (
+    <section id={id} class={`reveal px-margin-mobile md:px-margin-desktop pb-section-gap max-w-container-max mx-auto scroll-mt-24 ${className}`}>
+      <div class="bg-surface-container-low border border-outline-variant rounded-xl p-12 md:p-20 text-center mx-auto shadow-[0_10px_30px_rgba(0,0,0,0.04)]">
+        <h2 class="font-headline-md text-headline-md mb-4">{title}</h2>
+        <p class="font-body-lg text-body-lg text-secondary mb-10">{description}</p>
+
+        <form class="flex flex-col sm:flex-row gap-4 max-w-125 mx-auto" onsubmit="event.preventDefault(); alert('Subscribed successfully!');">
+          <input
+            class="flex-1 bg-surface-container-lowest border border-outline-variant rounded-full px-6 py-4 focus:ring-2 focus:ring-primary-container focus:outline-none transition-all"
+            placeholder="email@address.com"
+            required
+            type="email"
+          />
+          <Button type="submit" variant="primary" class="px-8 py-4">
+            Subscribe
+          </Button>
+        </form>
+      </div>
+    </section>
+  ) : (
+    <div class={`bg-primary-container rounded-xl p-8 flex flex-col justify-center text-white ambient-shadow ${className}`} id={id}>
+      <h3 class="font-headline-md text-headline-md mb-4 text-white">{title}</h3>
+      <p class="font-body-md text-body-md mb-8 opacity-90">{description}</p>
+      
+      <form class="space-y-4" onsubmit="event.preventDefault(); alert('Subscribed successfully!');">
+        <input 
+          class="w-full bg-white text-on-surface border-transparent rounded-full px-6 py-3 placeholder:text-secondary focus:ring-2 focus:ring-white focus:border-transparent transition-all outline-none" 
+          placeholder="Your email address" 
+          type="email" 
+          required
+        />
+        <button type="submit" class="w-full py-3 rounded-full font-label-md text-label-md transition-all cursor-pointer no-underline text-center select-none bg-white text-primary hover:bg-white/90 shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-primary-container">
+          Subscribe now
+        </button>
+      </form>
+    </div>
+  )
+}
