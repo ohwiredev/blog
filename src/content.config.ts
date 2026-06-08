@@ -17,7 +17,7 @@ const notesCollection = defineCollection({
 		}),
 		image: z.string().optional(),
 		imageAlt: z.string().optional(),
-    featured: z.boolean().default(false),
+		featured: z.boolean().default(false),
 	}),
 });
 

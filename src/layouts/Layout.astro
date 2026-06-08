@@ -22,9 +22,22 @@ const resolvedImage = image.startsWith("http")
 ---
 
 <!DOCTYPE html>
-<html class="light scroll-smooth" lang="en">
+<html class="scroll-smooth" lang="en">
 	<head>
 		<meta charset="utf-8" />
+		<script is:inline>
+			(function() {
+				const theme = localStorage.getItem('theme') || 
+					(window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+				if (theme === 'dark') {
+					document.documentElement.classList.add('dark');
+					document.documentElement.classList.remove('light');
+				} else {
+					document.documentElement.classList.add('light');
+					document.documentElement.classList.remove('dark');
+				}
+			})();
+		</script>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="icon" type="image/svg+xml" href={`${baseUrl}/favicon.svg`} />
 		<link rel="sitemap" href={`${baseUrl}/sitemap-index.xml`} />

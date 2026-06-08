@@ -23,6 +23,11 @@ const sortedNotes = [...allNotes].sort(
 	(a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf(),
 );
 
+// Get unique categories that are actually used in notes
+const usedCategories = Array.from(
+	new Set(allNotes.map((note) => note.data.category)),
+).sort();
+
 const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
 
 const getImagePath = (path?: string) => {
@@ -57,7 +62,7 @@ const getImagePath = (path?: string) => {
         >
           All
         </button>
-        {CATEGORIES.map((cat) => (
+        {usedCategories.map((cat) => (
           <button
             data-category={cat}
             class="category-pill px-5 py-2 rounded-full font-label-md text-[13px] uppercase tracking-wider transition-all duration-300 cursor-pointer select-none border border-outline-variant/10 hover:border-outline-variant/30"

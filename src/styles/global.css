@@ -14,7 +14,7 @@
 	--color-outline: #8f7066;
 	--color-surface-container-high: #e8e8e8;
 	--color-on-background: #1a1c1c;
-	--color-primary: #a93800;
+	--color-primary: #ff5f15;
 	--color-surface-variant: #e2e2e2;
 	--color-on-secondary: #ffffff;
 	--color-tertiary-fixed-dim: #98cbff;
@@ -32,7 +32,7 @@
 	--color-on-tertiary-fixed: #001d33;
 	--color-surface-container-highest: #e2e2e2;
 	--color-on-tertiary-fixed-variant: #004a77;
-	--color-on-primary-container: #551800;
+	--color-on-primary-container: #ffffff;
 	--color-surface-bright: #f9f9f9;
 	--color-on-secondary-fixed-variant: #474746;
 	--color-primary-fixed: #ffdbcf;
@@ -155,9 +155,62 @@ body {
 	.animate-fade-up,
 	.transition-transform,
 	.group-hover\:-translate-y-2 {
+		/* biome-ignore lint/complexity/noImportantStyles: override required for reduced motion */
 		transition: none !important;
+		/* biome-ignore lint/complexity/noImportantStyles: override required for reduced motion */
 		animation: none !important;
+		/* biome-ignore lint/complexity/noImportantStyles: override required for reduced motion */
 		transform: none !important;
+		/* biome-ignore lint/complexity/noImportantStyles: override required for reduced motion */
 		opacity: 1 !important;
 	}
+}
+
+.dark {
+	--color-background: #0b0e0e;
+	--color-surface: #111313;
+	--color-surface-dim: #111313;
+	--color-surface-bright: #2b2f2f;
+	--color-surface-container: #1a1c1c;
+	--color-surface-container-low: #161818;
+	--color-surface-container-lowest: #0b0e0e;
+	--color-surface-container-high: #242626;
+	--color-surface-container-highest: #2f3131;
+
+	--color-on-background: #e1e3e3;
+	--color-on-surface: #e1e3e3;
+	--color-on-surface-variant: #d5c3bc;
+	--color-surface-variant: #2d3131;
+
+	--color-primary: #ff5f15;
+	--color-primary-container: #ff5f15;
+	--color-on-primary: #ffffff;
+	--color-on-primary-container: #ffffff;
+	--color-primary-fixed: #ffdbcf;
+	--color-primary-fixed-dim: #ffb59b;
+
+	--color-secondary: #c8c6c5;
+	--color-secondary-container: #474746;
+	--color-on-secondary: #2f3030;
+	--color-on-secondary-container: #e2e2e1;
+
+	--color-outline: #9d8d87;
+	--color-outline-variant: #52433f;
+
+	--color-inverse-surface: #e1e3e3;
+	--color-inverse-on-surface: #1a1c1c;
+	--color-inverse-primary: #a93800;
+
+	--color-tertiary: #98cbff;
+	--color-tertiary-container: #004a77;
+	--color-on-tertiary: #003355;
+	--color-on-tertiary-container: #cee5ff;
+}
+
+.dark .ambient-shadow {
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.dark .card-hover:hover {
+	box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
 }
