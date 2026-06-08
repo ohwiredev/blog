@@ -26,7 +26,7 @@ git diff --cached
    message following
    [Conventional Commits](https://www.conventionalcommits.org/) format:
    - Use types like `feat`, `fix`, `refactor`, `docs`, `style`, `test`, `chore`
-   - Format: `type(scope): short description`
+   - Format: `type: short description`
    - Keep the subject line under 72 characters
    - Be specific and descriptive about _what_ changed and _why_
    - Then execute the commit.

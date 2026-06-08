@@ -11,10 +11,10 @@ interface Props {
 
 const {
 	variant = "section",
-	title = variant === "section" ? "Stay updated." : "Join the fold",
+	title = variant === "section" ? "Don't miss the next one." : "Get the weekly notes",
 	description = variant === "section"
-		? "Join the newsletter for weekly developer notes, tooling tips, and workflow reviews."
-		: "Get our weekly editorial on technology, design, and culture delivered straight to your inbox.",
+		? "I send out a weekly email with my latest notes, interesting tools I found, and the occasional hot take. No spam, no fluff. Just what I'm learning that week."
+		: "One email a week with the latest notes and cool finds. No spam.",
 	id,
 	class: className = "",
 } = Astro.props;
