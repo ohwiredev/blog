@@ -11,7 +11,9 @@ interface Props {
 
 const {
 	variant = "section",
-	title = variant === "section" ? "Don't miss the next one." : "Get the weekly notes",
+	title = variant === "section"
+		? "Don't miss the next one."
+		: "Get the weekly notes",
 	description = variant === "section"
 		? "I send out a weekly email with my latest notes, interesting tools I found, and the occasional hot take. No spam, no fluff. Just what I'm learning that week."
 		: "One email a week with the latest notes and cool finds. No spam.",

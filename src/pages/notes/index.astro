@@ -39,21 +39,33 @@ const getImagePath = (path?: string) => {
 };
 ---
 
-<Layout title="Notes | ohwire" description="Everything I've learned, written down before I forget it.">
+<Layout
+  title="Notes | ohwire"
+  description="Everything I've learned, written down before I forget it."
+>
   <!-- Header Section -->
-  <section class="px-margin-mobile md:px-margin-desktop py-12 md:py-16 flex flex-col items-center text-center max-w-container-max mx-auto">
-    <h1 class="font-display-lg text-[40px] leading-12 md:text-display-lg/18 mb-4 max-w-200 opacity-0 animate-fade-up">
+  <section
+    class="px-margin-mobile md:px-margin-desktop py-12 md:py-16 flex flex-col items-center text-center max-w-container-max mx-auto"
+  >
+    <h1
+      class="font-display-lg text-[40px] leading-12 md:text-display-lg/18 mb-4 max-w-200 opacity-0 animate-fade-up"
+    >
       Notes
     </h1>
-    <p class="font-body-lg text-body-lg text-secondary max-w-150 mb-10 opacity-0 animate-fade-up delay-100">
+    <p
+      class="font-body-lg text-body-lg text-secondary max-w-150 mb-10 opacity-0 animate-fade-up delay-100"
+    >
       Everything I've learned, written down before I forget it.
     </p>
   </section>
 
   <!-- Filter Controls Section -->
-  <section class="reveal px-margin-mobile md:px-margin-desktop pb-12 max-w-container-max mx-auto">
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-outline-variant/20 pb-6">
-
+  <section
+    class="reveal px-margin-mobile md:px-margin-desktop pb-12 max-w-container-max mx-auto"
+  >
+    <div
+      class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-outline-variant/20 pb-6"
+    >
       <!-- Categories Pills Group -->
       <div class="flex flex-wrap gap-2.5" id="category-pills">
         <button
@@ -62,14 +74,16 @@ const getImagePath = (path?: string) => {
         >
           All
         </button>
-        {usedCategories.map((cat) => (
-          <button
-            data-category={cat}
-            class="category-pill px-5 py-2 rounded-full font-label-md text-[13px] uppercase tracking-wider transition-all duration-300 cursor-pointer select-none border border-outline-variant/10 hover:border-outline-variant/30"
-          >
-            {cat}
-          </button>
-        ))}
+        {
+          usedCategories.map((cat) => (
+            <button
+              data-category={cat}
+              class="category-pill px-5 py-2 rounded-full font-label-md text-[13px] uppercase tracking-wider transition-all duration-300 cursor-pointer select-none border border-outline-variant/10 hover:border-outline-variant/30"
+            >
+              {cat}
+            </button>
+          ))
+        }
       </div>
 
       <!-- Custom Sort Toggle Button -->
@@ -78,64 +92,85 @@ const getImagePath = (path?: string) => {
         class="flex items-center gap-2 self-end sm:self-auto bg-surface-container-low/60 dark:bg-surface-container-lowest/30 border border-outline-variant/10 hover:border-outline-variant/30 rounded-full px-5 py-2.5 font-label-md text-[13px] uppercase tracking-wider text-secondary hover:text-on-surface transition-all duration-300 cursor-pointer select-none"
         aria-label="Toggle sort order"
       >
-        <ArrowUpDown id="sort-icon" class="w-4 h-4 transition-transform duration-500 ease-out" />
+        <ArrowUpDown
+          id="sort-icon"
+          class="w-4 h-4 transition-transform duration-500 ease-out"
+        />
         <span id="sort-text">Newest First</span>
       </button>
-
     </div>
   </section>
 
   <!-- Notes Grid Section -->
-  <section class="px-margin-mobile md:px-margin-desktop pb-section-gap max-w-container-max mx-auto">
+  <section
+    class="px-margin-mobile md:px-margin-desktop pb-section-gap max-w-container-max mx-auto"
+  >
     <!-- Grid -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter" id="notes-grid">
-      {sortedNotes.map((post) => (
-        <article
-          data-category={post.data.category}
-          data-title={post.data.title.toLowerCase()}
-          data-description={post.data.description.toLowerCase()}
-          data-date={post.data.publishDate.toISOString()}
-          class="note-card reveal group cursor-pointer transition-all duration-300 no-underline text-inherit block"
-        >
-          <a href={`${baseUrl}/notes/${post.id}`} class="no-underline text-inherit block">
-            <div class="relative aspect-4/3 rounded-xl overflow-hidden mb-6 shadow-[0_10px_30px_rgba(0,0,0,0.04)] transition-all duration-300 group-hover:-translate-y-2 group-hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)]">
-              {post.data.image && (
-                <Image
-                  class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  alt={post.data.imageAlt || post.data.title}
-                  src={getImagePath(post.data.image)}
-                  width={800}
-                  height={600}
-                />
-              )}
-              <div class="absolute top-4 left-4">
-                <span class="bg-surface/90 backdrop-blur px-3 py-1 rounded-full font-label-md text-[12px] uppercase tracking-widest text-on-surface">
-                  {post.data.category}
-                </span>
+      {
+        sortedNotes.map((post) => (
+          <article
+            data-category={post.data.category}
+            data-title={post.data.title.toLowerCase()}
+            data-description={post.data.description.toLowerCase()}
+            data-date={post.data.publishDate.toISOString()}
+            class="note-card reveal group cursor-pointer transition-all duration-300 no-underline text-inherit block"
+          >
+            <a
+              href={`${baseUrl}/notes/${post.id}`}
+              class="no-underline text-inherit block"
+            >
+              <div class="relative aspect-4/3 rounded-xl overflow-hidden mb-6 shadow-[0_10px_30px_rgba(0,0,0,0.04)] transition-all duration-300 group-hover:-translate-y-2 group-hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)]">
+                {post.data.image && (
+                  <Image
+                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    alt={post.data.imageAlt || post.data.title}
+                    src={getImagePath(post.data.image)}
+                    width={800}
+                    height={600}
+                  />
+                )}
+                <div class="absolute top-4 left-4">
+                  <span class="bg-surface/90 backdrop-blur px-3 py-1 rounded-full font-label-md text-[12px] uppercase tracking-widest text-on-surface">
+                    {post.data.category}
+                  </span>
+                </div>
               </div>
-            </div>
-            <h3 class="font-headline-sm text-headline-sm mb-3 group-hover:text-primary transition-colors">
-              {post.data.title}
-            </h3>
-            <p class="font-body-md text-body-md text-secondary line-clamp-2 mb-3">
-              {post.data.description}
-            </p>
-            <p class="font-label-md text-[12px] text-secondary/70 uppercase tracking-wider">
-              {post.data.publishDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-            </p>
-          </a>
-        </article>
-      ))}
+              <h3 class="font-headline-sm text-headline-sm mb-3 group-hover:text-primary transition-colors">
+                {post.data.title}
+              </h3>
+              <p class="font-body-md text-body-md text-secondary line-clamp-2 mb-3">
+                {post.data.description}
+              </p>
+              <p class="font-label-md text-[12px] text-secondary/70 uppercase tracking-wider">
+                {post.data.publishDate.toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
+                })}
+              </p>
+            </a>
+          </article>
+        ))
+      }
     </div>
 
     <!-- Empty State -->
-    <div id="no-results-state" class="hidden flex-col items-center justify-center py-20 px-4 text-center bg-white/30 dark:bg-surface-container-lowest/30 backdrop-blur border border-outline-variant/30 rounded-2xl reveal">
-      <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-6">
+    <div
+      id="no-results-state"
+      class="hidden flex-col items-center justify-center py-20 px-4 text-center bg-white/30 dark:bg-surface-container-lowest/30 backdrop-blur border border-outline-variant/30 rounded-2xl reveal"
+    >
+      <div
+        class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-6"
+      >
         <Frown class="w-8 h-8" />
       </div>
-      <h3 class="font-headline-sm text-headline-sm mb-2 text-on-surface">No notes match your filters</h3>
+      <h3 class="font-headline-sm text-headline-sm mb-2 text-on-surface">
+        No notes match your filters
+      </h3>
       <p class="font-body-md text-body-md text-secondary max-w-sm mb-8">
-        Try adjusting your keywords or category filter to find what you are looking for.
+        Try adjusting your keywords or category filter to find what you are
+        looking for.
       </p>
       <button
         id="clear-filters-btn"
@@ -179,28 +214,29 @@ const getImagePath = (path?: string) => {
 
   <script>
     // Filtering logic state
-    let activeCategory = 'all';
-    let sortOrder = 'newest';
+    let activeCategory = "all";
+    let sortOrder = "newest";
 
-    const categoryPills = document.querySelectorAll('.category-pill');
-    const noteCards = document.querySelectorAll('.note-card');
-    const noResultsState = document.getElementById('no-results-state');
-    const notesGrid = document.getElementById('notes-grid');
-    const clearFiltersBtn = document.getElementById('clear-filters-btn');
-    const sortToggleBtn = document.getElementById('sort-toggle-btn');
-    const sortText = document.getElementById('sort-text');
-    const sortIcon = document.getElementById('sort-icon');
+    const categoryPills = document.querySelectorAll(".category-pill");
+    const noteCards = document.querySelectorAll(".note-card");
+    const noResultsState = document.getElementById("no-results-state");
+    const notesGrid = document.getElementById("notes-grid");
+    const clearFiltersBtn = document.getElementById("clear-filters-btn");
+    const sortToggleBtn = document.getElementById("sort-toggle-btn");
+    const sortText = document.getElementById("sort-text");
+    const sortIcon = document.getElementById("sort-icon");
 
     // Update the sort button state visually
     function updateSortUI() {
       if (sortText) {
-        sortText.textContent = sortOrder === 'newest' ? 'Newest First' : 'Oldest First';
+        sortText.textContent =
+          sortOrder === "newest" ? "Newest First" : "Oldest First";
       }
       if (sortIcon) {
-        if (sortOrder === 'oldest') {
-          sortIcon.classList.add('rotate-180');
+        if (sortOrder === "oldest") {
+          sortIcon.classList.add("rotate-180");
         } else {
-          sortIcon.classList.remove('rotate-180');
+          sortIcon.classList.remove("rotate-180");
         }
       }
     }
@@ -209,21 +245,21 @@ const getImagePath = (path?: string) => {
     function initFiltersFromUrl() {
       const params = new URLSearchParams(window.location.search);
 
-      const cat = params.get('category');
+      const cat = params.get("category");
       if (cat) {
         activeCategory = cat;
-        categoryPills.forEach(pill => {
-          const pillCat = pill.getAttribute('data-category');
+        categoryPills.forEach((pill) => {
+          const pillCat = pill.getAttribute("data-category");
           if (pillCat?.toLowerCase() === cat.toLowerCase()) {
-            pill.classList.add('active');
+            pill.classList.add("active");
           } else {
-            pill.classList.remove('active');
+            pill.classList.remove("active");
           }
         });
       }
 
-      const sort = params.get('sort');
-      if (sort && (sort === 'newest' || sort === 'oldest')) {
+      const sort = params.get("sort");
+      if (sort && (sort === "newest" || sort === "oldest")) {
         sortOrder = sort;
       }
 
@@ -234,11 +270,13 @@ const getImagePath = (path?: string) => {
     // Update URL parameters dynamically
     function updateUrlParams() {
       const params = new URLSearchParams();
-      if (activeCategory !== 'all') params.set('category', activeCategory);
-      if (sortOrder !== 'newest') params.set('sort', sortOrder);
+      if (activeCategory !== "all") params.set("category", activeCategory);
+      if (sortOrder !== "newest") params.set("sort", sortOrder);
 
-      const newRelativePathQuery = window.location.pathname + (params.toString() ? '?' + params.toString() : '');
-      window.history.replaceState(null, '', newRelativePathQuery);
+      const newRelativePathQuery =
+        window.location.pathname +
+        (params.toString() ? "?" + params.toString() : "");
+      window.history.replaceState(null, "", newRelativePathQuery);
     }
 
     // Main filter function
@@ -247,22 +285,24 @@ const getImagePath = (path?: string) => {
 
       noteCards.forEach((card) => {
         const htmlCard = card as HTMLElement;
-        const category = htmlCard.getAttribute('data-category') || '';
+        const category = htmlCard.getAttribute("data-category") || "";
 
-        const matchesCategory = activeCategory === 'all' || category.toLowerCase() === activeCategory.toLowerCase();
+        const matchesCategory =
+          activeCategory === "all" ||
+          category.toLowerCase() === activeCategory.toLowerCase();
 
         if (matchesCategory) {
-          htmlCard.classList.remove('hidden');
+          htmlCard.classList.remove("hidden");
           // Stagger fade-in animation
           setTimeout(() => {
-            htmlCard.style.opacity = '1';
-            htmlCard.style.transform = 'translateY(0)';
+            htmlCard.style.opacity = "1";
+            htmlCard.style.transform = "translateY(0)";
           }, visibleCount * 50);
           visibleCount++;
         } else {
-          htmlCard.classList.add('hidden');
-          htmlCard.style.opacity = '0';
-          htmlCard.style.transform = 'translateY(10px)';
+          htmlCard.classList.add("hidden");
+          htmlCard.style.opacity = "0";
+          htmlCard.style.transform = "translateY(10px)";
         }
       });
 
@@ -271,15 +311,15 @@ const getImagePath = (path?: string) => {
 
       // Handle empty state visibility
       if (visibleCount === 0) {
-        notesGrid?.classList.add('hidden');
-        noResultsState?.classList.remove('hidden');
+        notesGrid?.classList.add("hidden");
+        noResultsState?.classList.remove("hidden");
         setTimeout(() => {
-          noResultsState?.classList.add('active');
+          noResultsState?.classList.add("active");
         }, 50);
       } else {
-        notesGrid?.classList.remove('hidden');
-        noResultsState?.classList.add('hidden');
-        noResultsState?.classList.remove('active');
+        notesGrid?.classList.remove("hidden");
+        noResultsState?.classList.add("hidden");
+        noResultsState?.classList.remove("active");
       }
     }
 
@@ -290,10 +330,10 @@ const getImagePath = (path?: string) => {
       const cardsArray = Array.from(noteCards);
 
       cardsArray.sort((a, b) => {
-        const dateA = new Date(a.getAttribute('data-date') || 0).getTime();
-        const dateB = new Date(b.getAttribute('data-date') || 0).getTime();
+        const dateA = new Date(a.getAttribute("data-date") || 0).getTime();
+        const dateB = new Date(b.getAttribute("data-date") || 0).getTime();
 
-        if (sortOrder === 'newest') {
+        if (sortOrder === "newest") {
           return dateB - dateA;
         } else {
           return dateA - dateB;
@@ -301,44 +341,44 @@ const getImagePath = (path?: string) => {
       });
 
       // Re-append cards to grid in correct sorted order
-      cardsArray.forEach(card => {
+      cardsArray.forEach((card) => {
         notesGrid.appendChild(card);
       });
     }
 
     if (sortToggleBtn) {
-      sortToggleBtn.addEventListener('click', () => {
-        sortOrder = sortOrder === 'newest' ? 'oldest' : 'newest';
+      sortToggleBtn.addEventListener("click", () => {
+        sortOrder = sortOrder === "newest" ? "oldest" : "newest";
         updateSortUI();
         updateUrlParams();
         applyFilters();
       });
     }
 
-    categoryPills.forEach(pill => {
-      pill.addEventListener('click', (e) => {
-        categoryPills.forEach(p => p.classList.remove('active'));
+    categoryPills.forEach((pill) => {
+      pill.addEventListener("click", (e) => {
+        categoryPills.forEach((p) => p.classList.remove("active"));
         const target = e.currentTarget as HTMLButtonElement;
-        target.classList.add('active');
+        target.classList.add("active");
 
-        activeCategory = target.getAttribute('data-category') || 'all';
+        activeCategory = target.getAttribute("data-category") || "all";
         updateUrlParams();
         applyFilters();
       });
     });
 
     if (clearFiltersBtn) {
-      clearFiltersBtn.addEventListener('click', () => {
-        activeCategory = 'all';
-        sortOrder = 'newest';
+      clearFiltersBtn.addEventListener("click", () => {
+        activeCategory = "all";
+        sortOrder = "newest";
 
         updateSortUI();
 
-        categoryPills.forEach(pill => {
-          if (pill.getAttribute('data-category') === 'all') {
-            pill.classList.add('active');
+        categoryPills.forEach((pill) => {
+          if (pill.getAttribute("data-category") === "all") {
+            pill.classList.add("active");
           } else {
-            pill.classList.remove('active');
+            pill.classList.remove("active");
           }
         });
 
@@ -353,18 +393,18 @@ const getImagePath = (path?: string) => {
     // Intersection observer for entrance animations
     const observerOptions = {
       threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
+      rootMargin: "0px 0px -50px 0px",
     };
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('active');
+          entry.target.classList.add("active");
           observer.unobserve(entry.target);
         }
       });
     }, observerOptions);
 
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
   </script>
 </Layout>
