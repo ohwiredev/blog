@@ -2,74 +2,83 @@
 const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
 
 interface StackItem {
-  name: string;
-  role: string;
-  color: string;
-  icon: string;
-  colSpan: string;
+	name: string;
+	role: string;
+	color: string;
+	icon: string;
+	colSpan: string;
+	url: string;
 }
 
 const stackItems: StackItem[] = [
-  {
-    name: "Astro",
-    role: "Framework",
-    color: "#FF5D01",
-    icon: "/icons/astro-icon-dark.svg",
-    colSpan: "col-span-2",
-  },
-  {
-    name: "Tailwind CSS",
-    role: "Styling",
-    color: "#06B6D4",
-    icon: "/icons/tailwindcss.svg",
-    colSpan: "col-span-1",
-  },
-  {
-    name: "Cloudflare",
-    role: "Hosting",
-    color: "#F6821F",
-    icon: "/icons/cloudflare.svg",
-    colSpan: "col-span-1",
-  },
-  {
-    name: "Supabase",
-    role: "Database",
-    color: "#3ECF8E",
-    icon: "/icons/supabase.svg",
-    colSpan: "col-span-1",
-  },
-  {
-    name: "Supabase Auth",
-    role: "Auth",
-    color: "#3ECF8E",
-    icon: "/icons/supabase.svg",
-    colSpan: "col-span-1",
-  },
-  {
-    name: "Clerk",
-    role: "Auth",
-    color: "#6C47FF",
-    icon: "/icons/clerk-icon-dark.svg",
-    colSpan: "col-span-2",
-  },
-  {
-    name: "Lemon Squeezy",
-    role: "Payments",
-    color: "#FFC233",
-    icon: "/icons/lemonsqueezy.svg",
-    colSpan: "col-span-2",
-  },
-  {
-    name: "Shadcn UI",
-    role: "Components",
-    color: "#71717A",
-    icon: "/icons/shadcn-ui_dark.svg",
-    colSpan: "col-span-2",
-  },
+	{
+		name: "Astro",
+		role: "Framework",
+		color: "#FF5D01",
+		icon: "/icons/astro-icon-dark.svg",
+		colSpan: "col-span-2",
+		url: "https://astro.build",
+	},
+	{
+		name: "Tailwind CSS",
+		role: "Styling",
+		color: "#06B6D4",
+		icon: "/icons/tailwindcss.svg",
+		colSpan: "col-span-1",
+		url: "https://tailwindcss.com",
+	},
+	{
+		name: "Cloudflare",
+		role: "Hosting",
+		color: "#F6821F",
+		icon: "/icons/cloudflare.svg",
+		colSpan: "col-span-1",
+		url: "https://cloudflare.com",
+	},
+	{
+		name: "Supabase",
+		role: "Database",
+		color: "#3ECF8E",
+		icon: "/icons/supabase.svg",
+		colSpan: "col-span-1",
+		url: "https://supabase.com",
+	},
+	{
+		name: "Supabase Auth",
+		role: "Auth",
+		color: "#3ECF8E",
+		icon: "/icons/supabase.svg",
+		colSpan: "col-span-1",
+		url: "https://supabase.com/docs/guides/auth",
+	},
+	{
+		name: "Clerk",
+		role: "Auth",
+		color: "#6C47FF",
+		icon: "/icons/clerk-icon-dark.svg",
+		colSpan: "col-span-2",
+		url: "https://clerk.com",
+	},
+	{
+		name: "Lemon Squeezy",
+		role: "Payments",
+		color: "#FFC233",
+		icon: "/icons/lemonsqueezy.svg",
+		colSpan: "col-span-2",
+		url: "https://lemonsqueezy.com",
+	},
+	{
+		name: "Shadcn UI",
+		role: "Components",
+		color: "#71717A",
+		icon: "/icons/shadcn-ui_dark.svg",
+		colSpan: "col-span-2",
+		url: "https://ui.shadcn.com",
+	},
 ];
 
 const getImagePath = (path: string) => {
-  return `${baseUrl}${path}`;
+	return `${baseUrl}${path}`;
 };
 ---
 
@@ -90,8 +99,11 @@ const getImagePath = (path: string) => {
     {
       stackItems.map((item) => (
         <div class="reveal h-full">
-          <div
-            class="spotlight-card h-full relative bg-outline-variant/30 rounded-xl p-[1px] cursor-default overflow-hidden group/card"
+          <a
+            href={item.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="spotlight-card h-full relative bg-outline-variant/30 rounded-xl p-[1px] block cursor-pointer overflow-hidden group/card decoration-none no-underline"
             style={`--brand-color: ${item.color};`}
           >
             {/* Spotlight Gradient Background */}
@@ -116,7 +128,7 @@ const getImagePath = (path: string) => {
                 {item.role}
               </span>
             </div>
-          </div>
+          </a>
         </div>
       ))
     }
