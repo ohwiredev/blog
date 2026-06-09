@@ -27,7 +27,7 @@ const isNotes =
     </a>
     <div class="hidden md:flex items-center space-x-2">
       <a
-        class={`px-4 py-1.5 rounded-full font-label-md text-label-md transition-all duration-200 no-underline select-none ${
+        class={`px-4 py-1.5 rounded-full font-label-md text-label-md transition-[color,background-color,transform] duration-150 ease-[var(--ease-custom-out)] active:scale-[0.97] no-underline select-none ${
           isHome
             ? "bg-primary/10 text-primary dark:bg-primary/15 font-semibold"
             : "text-secondary dark:text-secondary-fixed-dim hover:text-primary hover:bg-secondary/5 dark:hover:bg-secondary-container/10"
@@ -37,7 +37,7 @@ const isNotes =
         Home
       </a>
       <a
-        class={`px-4 py-1.5 rounded-full font-label-md text-label-md transition-all duration-200 no-underline select-none ${
+        class={`px-4 py-1.5 rounded-full font-label-md text-label-md transition-[color,background-color,transform] duration-150 ease-[var(--ease-custom-out)] active:scale-[0.97] no-underline select-none ${
           isNotes
             ? "bg-primary/10 text-primary dark:bg-primary/15 font-semibold"
             : "text-secondary dark:text-secondary-fixed-dim hover:text-primary hover:bg-secondary/5 dark:hover:bg-secondary-container/10"
@@ -53,7 +53,7 @@ const isNotes =
           href="https://x.com/ohwiredev"
           target="_blank"
           rel="noopener noreferrer"
-          class="text-on-surface dark:text-on-background hover:text-primary transition-colors duration-200"
+          class="text-on-surface dark:text-on-background hover:text-primary transition-[color,transform] duration-150 ease-[var(--ease-custom-out)] active:scale-[0.97]"
           aria-label="X (Twitter)"
         >
           <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
@@ -66,7 +66,7 @@ const isNotes =
           href="https://github.com/ohwiredev"
           target="_blank"
           rel="noopener noreferrer"
-          class="text-on-surface dark:text-on-background hover:text-primary transition-colors duration-200"
+          class="text-on-surface dark:text-on-background hover:text-primary transition-[color,transform] duration-150 ease-[var(--ease-custom-out)] active:scale-[0.97]"
           aria-label="GitHub"
         >
           <svg
@@ -86,14 +86,14 @@ const isNotes =
         </a>
       </div>
       <button
-        class="theme-toggle-btn text-on-surface dark:text-on-background hover:text-primary cursor-pointer p-2 rounded-full hover:bg-secondary/5 dark:hover:bg-secondary-container/10 transition-colors duration-200 hidden sm:inline-block"
+        class="theme-toggle-btn text-on-surface dark:text-on-background hover:text-primary cursor-pointer p-2 rounded-full hover:bg-secondary/5 dark:hover:bg-secondary-container/10 transition-[color,background-color,transform] duration-150 ease-[var(--ease-custom-out)] active:scale-[0.97] hidden sm:inline-block"
         aria-label="Toggle theme"
       >
         <Sun class="w-5 h-5 hidden dark:block" />
         <Moon class="w-5 h-5 block dark:hidden" />
       </button>
       <button
-        class="md:hidden text-on-surface cursor-pointer p-2 rounded-full hover:bg-secondary/5 transition-colors relative z-60"
+        class="md:hidden text-on-surface cursor-pointer p-2 rounded-full hover:bg-secondary/5 transition-[background-color,transform] duration-150 ease-[var(--ease-custom-out)] active:scale-[0.97] relative z-60"
         id="mobile-menu-btn"
         aria-label="Toggle menu"
       >
@@ -112,12 +112,12 @@ const isNotes =
 
 <div
   id="mobile-menu"
-  class="fixed top-24 left-5 right-5 bg-surface-container border border-outline-variant/30 z-60 flex flex-col md:hidden transition-all duration-300 ease-out transform origin-top-right opacity-0 scale-95 pointer-events-none shadow-2xl rounded-2xl p-6"
+  class="fixed top-24 left-5 right-5 bg-surface-container border border-outline-variant/30 z-60 flex flex-col md:hidden transition-[transform,opacity] duration-200 ease-[var(--ease-custom-out)] transform origin-top-right opacity-0 scale-95 pointer-events-none shadow-2xl rounded-2xl p-6"
 >
   <!-- Navigation Links -->
   <div class="flex flex-col space-y-4">
     <a
-      class={`text-xl font-semibold font-label-md no-underline py-3 px-4 rounded-xl transition-all duration-200 flex items-center justify-between ${
+      class={`text-xl font-semibold font-label-md no-underline py-3 px-4 rounded-xl transition-[color,background-color,transform] duration-150 ease-[var(--ease-custom-out)] active:scale-[0.97] flex items-center justify-between ${
         isHome ? "bg-primary/10 text-primary font-bold" : "text-on-surface hover:bg-secondary/5"
       }`}
       href={import.meta.env.BASE_URL}
@@ -126,7 +126,7 @@ const isNotes =
       <ChevronRight class="w-4 h-4 opacity-50" />
     </a>
     <a
-      class={`text-xl font-semibold font-label-md no-underline py-3 px-4 rounded-xl transition-all duration-200 flex items-center justify-between ${
+      class={`text-xl font-semibold font-label-md no-underline py-3 px-4 rounded-xl transition-[color,background-color,transform] duration-150 ease-[var(--ease-custom-out)] active:scale-[0.97] flex items-center justify-between ${
         isNotes ? "bg-primary/10 text-primary font-bold" : "text-on-surface hover:bg-secondary/5"
       }`}
       href={`${baseUrl}/notes`}
@@ -153,7 +153,7 @@ const isNotes =
         href="https://x.com/ohwiredev"
         target="_blank"
         rel="noopener noreferrer"
-        class="text-on-surface dark:text-on-background hover:text-primary transition-colors p-2.5 rounded-full hover:bg-secondary/5"
+        class="text-on-surface dark:text-on-background hover:text-primary transition-[color,background-color,transform] duration-150 ease-[var(--ease-custom-out)] active:scale-[0.97] p-2.5 rounded-full hover:bg-secondary/5"
         aria-label="X (Twitter)"
       >
         <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
@@ -166,7 +166,7 @@ const isNotes =
         href="https://github.com/ohwiredev"
         target="_blank"
         rel="noopener noreferrer"
-        class="text-on-surface dark:text-on-background hover:text-primary transition-colors p-2.5 rounded-full hover:bg-secondary/5"
+        class="text-on-surface dark:text-on-background hover:text-primary transition-[color,background-color,transform] duration-150 ease-[var(--ease-custom-out)] active:scale-[0.97] p-2.5 rounded-full hover:bg-secondary/5"
         aria-label="GitHub"
       >
         <svg
@@ -187,7 +187,7 @@ const isNotes =
     </div>
     
     <button
-      class="theme-toggle-btn text-on-surface dark:text-on-background hover:text-primary cursor-pointer p-2.5 rounded-full hover:bg-secondary/5 dark:hover:bg-secondary-container/10 transition-colors duration-200"
+      class="theme-toggle-btn text-on-surface dark:text-on-background hover:text-primary cursor-pointer p-2.5 rounded-full hover:bg-secondary/5 dark:hover:bg-secondary-container/10 transition-[color,background-color,transform] duration-150 ease-[var(--ease-custom-out)] active:scale-[0.97]"
       aria-label="Toggle theme"
     >
       <Sun class="w-5 h-5 hidden dark:block" />

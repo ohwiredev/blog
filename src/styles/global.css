@@ -90,6 +90,9 @@
 
 	--text-body-md: 16px;
 	--text-body-md--font-weight: 400;
+
+	--ease-custom-out: cubic-bezier(0.23, 1, 0.32, 1);
+	--ease-custom-in-out: cubic-bezier(0.77, 0, 0.175, 1);
 }
 
 body {
@@ -101,7 +104,9 @@ body {
 .reveal {
 	opacity: 0;
 	transform: translateY(20px);
-	transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+	transition:
+		opacity 0.5s cubic-bezier(0.23, 1, 0.32, 1),
+		transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .reveal.active {
@@ -137,7 +142,7 @@ body {
 }
 
 .animate-fade-up {
-	animation: fadeUp 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+	animation: fadeUp 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
 }
 
 .delay-100 {

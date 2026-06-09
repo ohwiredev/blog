@@ -3,6 +3,7 @@ import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
 import Button from "../components/Button.astro";
 import Newsletter from "../components/Newsletter.astro";
+import TechStack from "../components/TechStack.astro";
 import { CATEGORIES, isValidCategory } from "../config/categories";
 import Layout from "../layouts/Layout.astro";
 
@@ -11,26 +12,26 @@ const allNotes = await getCollection("notes");
 
 // Validate categories at build/run time
 for (const note of allNotes) {
-  if (!isValidCategory(note.data.category)) {
-    throw new Error(
-      `[Invalid Category] The blog post "${note.id}" has an invalid category "${note.data.category}". Allowed categories are: ${CATEGORIES.join(", ")}`,
-    );
-  }
+	if (!isValidCategory(note.data.category)) {
+		throw new Error(
+			`[Invalid Category] The blog post "${note.id}" has an invalid category "${note.data.category}". Allowed categories are: ${CATEGORIES.join(", ")}`,
+		);
+	}
 }
 
 // Sort notes by publish date (newest first)
 const recentNotes = allNotes
-  .sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf())
-  .slice(0, 3);
+	.sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf())
+	.slice(0, 3);
 
 const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
 
 const getImagePath = (path?: string) => {
-  if (!path) return "";
-  if (path.startsWith("/")) {
-    return `${baseUrl}${path}`;
-  }
-  return path;
+	if (!path) return "";
+	if (path.startsWith("/")) {
+		return `${baseUrl}${path}`;
+	}
+	return path;
 };
 ---
 
@@ -81,6 +82,9 @@ const getImagePath = (path?: string) => {
     </div>
   </section>
 
+  <!-- Tech Stack Section -->
+  <TechStack />
+
   <!-- Blog Grid Section -->
   <section
     id="blog-section"
@@ -95,9 +99,9 @@ const getImagePath = (path?: string) => {
         recentNotes.map((post) => (
           <a
             href={`${baseUrl}/notes/${post.id}`}
-            class="reveal group cursor-pointer transition-all duration-300 no-underline text-inherit block"
+            class="reveal group cursor-pointer transition-[transform,box-shadow] duration-200 ease-[var(--ease-custom-out)] no-underline text-inherit block"
           >
-            <div class="relative aspect-4/3 rounded-xl overflow-hidden mb-6 shadow-[0_10px_30px_rgba(0,0,0,0.04)] transition-all duration-300 group-hover:-translate-y-2 group-hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)]">
+            <div class="relative aspect-4/3 rounded-xl overflow-hidden mb-6 shadow-[0_10px_30px_rgba(0,0,0,0.04)] transition-[transform,box-shadow] duration-200 ease-[var(--ease-custom-out)] group-hover:-translate-y-2 group-hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)]">
               <Image
                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 alt={post.data.imageAlt || post.data.title}
@@ -111,7 +115,7 @@ const getImagePath = (path?: string) => {
                 </span>
               </div>
             </div>
-            <h3 class="font-headline-sm text-headline-sm mb-3 group-hover:text-primary transition-colors">
+            <h3 class="font-headline-sm text-headline-sm mb-3 group-hover:text-primary transition-colors duration-150 ease-[var(--ease-custom-out)]">
               {post.data.title}
             </h3>
             <p class="font-body-md text-body-md text-secondary line-clamp-2">
@@ -139,14 +143,14 @@ const getImagePath = (path?: string) => {
 
       currentEntries.forEach((entry, index) => {
         // If they are part of a grid, stagger them
-        const isGridItem = entry.target.parentElement?.id === "blog-grid";
+        const isGridItem = entry.target.parentElement?.id === "blog-grid" || entry.target.parentElement?.id === "stack-grid";
 
         setTimeout(
           () => {
             entry.target.classList.add("active");
             observer.unobserve(entry.target);
           },
-          isGridItem ? index * 150 : 0,
+          isGridItem ? index * 50 : 0,
         );
       });
     }, observerOptions);

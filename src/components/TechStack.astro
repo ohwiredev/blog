@@ -1,0 +1,184 @@
+---
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
+
+interface StackItem {
+  name: string;
+  role: string;
+  color: string;
+  icon: string;
+  colSpan: string;
+}
+
+const stackItems: StackItem[] = [
+  {
+    name: "Astro",
+    role: "Framework",
+    color: "#FF5D01",
+    icon: "/icons/astro-icon-dark.svg",
+    colSpan: "col-span-2",
+  },
+  {
+    name: "Tailwind CSS",
+    role: "Styling",
+    color: "#06B6D4",
+    icon: "/icons/tailwindcss.svg",
+    colSpan: "col-span-1",
+  },
+  {
+    name: "Cloudflare",
+    role: "Hosting",
+    color: "#F6821F",
+    icon: "/icons/cloudflare.svg",
+    colSpan: "col-span-1",
+  },
+  {
+    name: "Supabase",
+    role: "Database",
+    color: "#3ECF8E",
+    icon: "/icons/supabase.svg",
+    colSpan: "col-span-1",
+  },
+  {
+    name: "Supabase Auth",
+    role: "Auth",
+    color: "#3ECF8E",
+    icon: "/icons/supabase.svg",
+    colSpan: "col-span-1",
+  },
+  {
+    name: "Clerk",
+    role: "Auth",
+    color: "#6C47FF",
+    icon: "/icons/clerk-icon-dark.svg",
+    colSpan: "col-span-2",
+  },
+  {
+    name: "Lemon Squeezy",
+    role: "Payments",
+    color: "#FFC233",
+    icon: "/icons/lemonsqueezy.svg",
+    colSpan: "col-span-2",
+  },
+  {
+    name: "Shadcn UI",
+    role: "Components",
+    color: "#71717A",
+    icon: "/icons/shadcn-ui_dark.svg",
+    colSpan: "col-span-2",
+  },
+];
+
+const getImagePath = (path: string) => {
+  return `${baseUrl}${path}`;
+};
+---
+
+<section
+  class="px-margin-mobile md:px-margin-desktop pb-section-gap max-w-container-max mx-auto"
+>
+  <div class="reveal mb-12">
+    <h2 class="font-headline-md text-headline-md">What I Build With</h2>
+    <p class="font-body-lg text-body-lg text-secondary mt-3 max-w-150">
+      The tools and services I reach for when building and shipping products.
+    </p>
+  </div>
+
+  <div
+    class="grid grid-cols-2 md:grid-cols-4 group/grid auto-rows-fr gap-4"
+    id="stack-grid"
+  >
+    {
+      stackItems.map((item) => (
+        <div class="reveal h-full">
+          <div
+            class="spotlight-card h-full relative bg-outline-variant/30 rounded-xl p-[1px] cursor-default overflow-hidden group/card"
+            style={`--brand-color: ${item.color};`}
+          >
+            {/* Spotlight Gradient Background */}
+            <div class="spotlight-glow absolute -inset-px opacity-0 group-hover/card:opacity-100 transition-opacity duration-300 pointer-events-none" />
+
+            {/* Inner Content Area - Uses a solid background to cover the spotlight everywhere except the 1px padding (border) */}
+            <div class="relative w-full h-full bg-surface-container rounded-[11px] p-6 md:p-8 flex flex-col items-center justify-center text-center z-10 transition-transform duration-300">
+              {/* Icon Container */}
+              <div class="relative z-10 w-12 h-12 mb-4 flex items-center justify-center transition-transform duration-500 group-hover/card:-translate-y-1 group-hover/card:scale-110">
+                <img
+                  src={getImagePath(item.icon)}
+                  alt={`${item.name} icon`}
+                  class="w-full h-full object-contain filter grayscale opacity-80 group-hover/card:filter-none group-hover/card:opacity-100 transition-[filter,opacity] duration-300 ease-[var(--ease-custom-out)]"
+                />
+              </div>
+
+              {/* Text Elements */}
+              <span class="relative z-10 font-label-md text-label-md font-semibold mb-1 group-hover/card:text-[var(--brand-color)] transition-colors duration-300">
+                {item.name}
+              </span>
+              <span class="relative z-10 text-[12px] text-secondary uppercase tracking-widest font-label-md">
+                {item.role}
+              </span>
+            </div>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .spotlight-glow {
+    background: radial-gradient(
+      circle at var(--mouse-x, 0px) var(--mouse-y, 0px),
+      var(--brand-color),
+      transparent 250px
+    );
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .spotlight-card,
+    .spotlight-glow,
+    img,
+    div {
+      /* biome-ignore lint/complexity/noImportantStyles: override required for reduced motion */
+      transition: none !important;
+    }
+  }
+</style>
+
+<script>
+  const initSpotlight = () => {
+    const cards = document.querySelectorAll(".spotlight-card");
+    if (!cards.length) return;
+
+    let targetX = -1000;
+    let targetY = -1000;
+    let currentX = -1000;
+    let currentY = -1000;
+
+    document.addEventListener("mousemove", (e) => {
+      targetX = e.clientX;
+      targetY = e.clientY;
+    });
+
+    const updateSpotlight = () => {
+      currentX += (targetX - currentX) * 0.15;
+      currentY += (targetY - currentY) * 0.15;
+
+      for (let i = 0; i < cards.length; i++) {
+        const card = cards[i] as HTMLElement;
+        const rect = card.getBoundingClientRect();
+        const x = currentX - rect.left;
+        const y = currentY - rect.top;
+        card.style.setProperty("--mouse-x", `${x}px`);
+        card.style.setProperty("--mouse-y", `${y}px`);
+      }
+      requestAnimationFrame(updateSpotlight);
+    };
+
+    requestAnimationFrame(updateSpotlight);
+  };
+
+  // Run on initial load
+  initSpotlight();
+
+  // Run when Astro swaps pages (if view transitions are used later)
+  document.addEventListener("astro:page-load", initSpotlight);
+</script>
