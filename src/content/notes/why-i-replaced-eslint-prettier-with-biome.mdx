@@ -1,0 +1,133 @@
+---
+title: "Why I Replaced ESLint and Prettier with Biome"
+description: "A deep dive into Biome (the Rust-based toolchain), comparing its performance, simplicity, and formatting/linting rules to the traditional ESLint + Prettier stack."
+publishDate: "2026-06-15"
+author: "ohwire"
+authorImage: "/images/avatar.jpeg"
+category: "Tools"
+image: "/images/posts/biome-vs-eslint-&-prettier.jpg"
+imageAlt: "A modern, minimalist tech illustration representing code formatting and linting"
+featured: false
+---
+
+import { Code } from "astro-expressive-code/components";
+
+For years, the combination of ESLint and Prettier has been the undisputed standard for JavaScript and TypeScript projects. But recently, a new Rust-based contender has taken the ecosystem by storm: **Biome**. After using it to manage my own projects, I've officially replaced the old stack. Here's a look at why.
+
+## The Problem: Configuration Fatigue
+
+The combination of ESLint (for code quality) and Prettier (for formatting) has caused significant friction due to overlapping responsibilities:
+
+- **Conflicting Rules:** ESLint and Prettier often fight over stylistic rules, like quotes and trailing commas.
+- **Dependency Bloat:** A standard setup requires juggling a massive web of dependencies (`eslint`, `prettier`, `@typescript-eslint/parser`, `eslint-config-prettier`, and `eslint-plugin-prettier`).
+- **Performance Overhead:** Integrating Prettier directly into ESLint forces Node to parse the Abstract Syntax Tree (AST) multiple times, drastically slowing down lint times.
+- **Multiple Config Files:** You often end up with an unmanageable number of config and ignore files (`.eslintrc`, `.prettierrc`, `.eslintignore`, `.prettierignore`).
+
+## The Solution: Biome's Unified Pipeline
+
+Biome (formerly Rome) provides a modern, unified alternative. Written entirely in Rust, it combines linting, formatting, and import sorting into a single, cohesive tool.
+
+Because it's a unified toolchain, Biome fully eliminates rule conflicts. The formatter and linter are designed from day one to work together seamlessly using just one configuration file: `biome.json`.
+
+Here is an example of a `biome.json` file I use for my projects:
+
+<Code
+  code={`{
+  "$schema": "https://biomejs.dev/schemas/2.4.14/schema.json",
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "files": {
+    "ignoreUnknown": false,
+    "includes": [
+      "**",
+      "!src/index.css",
+      "!!node_modules",
+      "!!dist",
+      "!!build",
+      "!!coverage",
+      "!!.DS_Store"
+    ]
+  },
+  "formatter": {
+    "enabled": true,
+    "formatWithErrors": false,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineEnding": "lf",
+    "lineWidth": 80,
+    "attributePosition": "auto"
+  },
+  "assist": {
+    "enabled": true,
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
+    }
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "style": {
+        "useImportType": "error",
+        "noNonNullAssertion": "warn"
+      },
+      "suspicious": {
+        "noExplicitAny": "warn",
+        "noArrayIndexKey": "warn"
+      },
+      "a11y": {
+        "useKeyWithClickEvents": "off",
+        "useMediaCaption": "off",
+        "useValidAnchor": "warn"
+      }
+    }
+  },
+  "javascript": {
+    "formatter": {
+      "jsxQuoteStyle": "double",
+      "quoteProperties": "asNeeded",
+      "trailingCommas": "all",
+      "semicolons": "always",
+      "arrowParentheses": "always",
+      "bracketSpacing": true,
+      "bracketSameLine": false,
+      "quoteStyle": "double",
+      "attributePosition": "auto"
+    },
+    "jsxRuntime": "transparent"
+  }
+}`}
+  lang="json"
+  title="biome.json"
+/>
+
+Notice the simplicity:
+
+1. **VCS Integration:** `useIgnoreFile: true` tells Biome to natively respect your `.gitignore`.
+2. **Built-in Assistance:** Tools like `organizeImports` are baked right in.
+3. **Unified Rules:** You can toggle specific linting rules natively without installing five different plugins.
+
+## The Speed Difference (10-25x Faster)
+
+The performance difference is staggering. Because Biome is compiled to native machine code, there is no Node.js startup time, no JIT compilation, and no Garbage Collection pauses.
+
+Furthermore, because Biome is a unified toolchain, it parses the code into an AST **only once** and performs linting, formatting, and import sorting simultaneously using multi-threading.
+
+For medium-to-large codebases, where ESLint and Prettier might take several seconds, Biome typically completes both formatting and linting in the **sub-second range (around 300–800 milliseconds)**. It's so fast that running it in a pre-commit hook feels completely unnoticeable.
+
+## Trade-offs: When Not to Use Biome
+
+While I highly recommend Biome, there are still a few areas where ESLint holds the crown:
+
+- **The Plugin Ecosystem:** ESLint boasts over 4,000 community plugins. Biome operates on "in-tree" rules—it bakes in hundreds of popular rules natively but does not support arbitrary third-party plugins.
+- **Deep Type-Aware Linting:** `typescript-eslint` has highly mature, deep type-aware linting. Biome's type-aware linting is progressing quickly but still lacks some edge cases.
+- **Framework Template Support:** Support for parsing and linting complex template files like `.vue`, `.svelte`, or `.astro` is still experimental or partial in Biome, compared to ESLint's established ecosystem.
+
+## Conclusion
+
+If you're spinning up a greenfield JS, TS, or React project today, Biome is a massive win for simplicity, speed, and developer experience. By replacing a messy web of dependencies with a single, blazing-fast binary, Biome eliminates configuration fatigue and lets you focus strictly on writing code.
