@@ -1,0 +1,99 @@
+---
+title: "Supercharge Your PowerShell for Maximum Productivity"
+description: "Learn how developers use PowerShell profiles, custom aliases, and advanced functions to streamline their daily workflows."
+publishDate: "2026-06-16"
+author: "ohwire"
+authorImage: "/images/avatar.jpeg"
+category: "Setup"
+image: "/images/posts/powershell-for-maximum-productivity.jpg"
+imageAlt: "A modern, minimalist tech illustration representing a terminal or powershell profile"
+featured: false
+---
+
+import { Code } from "astro-expressive-code/components";
+
+Your PowerShell profile is the backbone of your command-line experience on Windows. Because it runs every time you open a new session, customizing it with aliases, functions, and prompt enhancements can save you thousands of keystrokes over time. In this post, we'll dive into how modern developers optimize their `$PROFILE` to streamline workflows with Git, Docker, package managers, and more.
+
+## The Foundation Keep It Modular
+
+Rather than dumping hundreds of lines of code into a single file, best practice dictates keeping your profile modular. Many developers source different script files (e.g., `Git-Aliases.ps1`, `Docker-Functions.ps1`) from their main profile. This keeps the main `$PROFILE` lean and speeds up terminal launch time.
+
+If you find yourself with complex logic, consider wrapping your functions in a **custom module** and using `Import-Module` instead.
+
+## Navigation and Daily Drivers
+
+Let's look at some personal favorites. The core of productivity is moving around your file system quickly and starting up standard tasks without friction. Here is an example of my personal PowerShell profile snippet designed for rapid navigation and daily server setups
+
+<Code
+  lang="powershell"
+  code={`# Navigation
+function tt { wt -w 0 nt -d $PWD }
+
+function Code {
+param(
+[ArgumentCompleter({
+param($cmd, $param, $word)
+Get-ChildItem "D:\\Code\\" -Directory |
+Where-Object { $_.Name -like "$word*" } |
+ForEach-Object { $_.Name }
+})]
+[string]$Folder = ""
+	)
+	$path = if ($Folder) { "D:\\Code\\$Folder" } else { "D:\\Code\\" }
+Push-Location $path
+}
+
+# Servers
+
+function Create-HTTP-Server { python -m http.server 8000 }
+Set-Alias -Name Start-Server -Value Create-HTTP-Server -Description "Create a simple python http server"`}
+/>
+
+### Breaking It Down
+
+- **`tt`** Opens a new Windows Terminal tab in the current working directory.
+- **`Code`** A custom function with an argument completer. It provides tab-completion for directories inside `D:\Code\`, allowing me to quickly jump to any project with a simple `Code ohwire-blog` command.
+- **`Start-Server`** A rapid alias to spin up a local Python HTTP server on port 8000 for quick testing.
+
+## Taming Package Managers
+
+If you work in web development, you are constantly running scripts. Setting up short aliases for your package manager of choice (like `pnpm`, `npm`, or `yarn`) is a huge time-saver.
+
+Here are some concise functions for PNPM
+
+<Code
+  lang="powershell"
+  code={`# PNPM
+function prd { pnpm run dev @args }
+function prb { pnpm run build @args }
+function prp { pnpm run preview @args }`}
+/>
+
+By passing `@args`, you ensure that any additional flags you provide in the terminal (like `prd --port 3000`) are passed directly to the underlying `pnpm` command.
+
+## Advanced Workflows Git, Docker, and Cloud CLIs
+
+While simple aliases (`Set-Alias`) are great, they have limitations. To truly elevate your setup, developers use **Advanced Functions** to handle complex toolchains.
+
+### Docker and Git Wrappers
+
+Instead of just aliasing `git status`, you can write wrappers to combine commands
+
+<Code
+  lang="powershell"
+  code={`# Git Add, Commit, and Push in one go
+function gacp {
+	param([string]$message)
+	git add .
+	git commit -m $message
+	git push
+}
+
+# Docker Remove all stopped containers
+
+function drm { docker rm $(docker ps -a -q) }`}
+/>
+
+## Conclusion
+
+Your PowerShell profile is a personal workspace. By combining custom navigation functions, argument completers, and smart tool wrappers, you can transform Windows Terminal into a powerhouse of productivity. Don't be afraid to continually tweak and refine your `$PROFILE` every keystroke saved is a win!
