@@ -1,4 +1,4 @@
-export const CATEGORIES = ["Setup", "Notes", "Tools"] as const;
+export const CATEGORIES = ["Setup", "Notes", "Tools", "SaaS"] as const;
 export type Category = (typeof CATEGORIES)[number];
 
 /**

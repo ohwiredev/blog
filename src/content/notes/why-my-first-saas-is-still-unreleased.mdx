@@ -1,0 +1,126 @@
+---
+title: "Why My First SaaS is Still Unreleased (and How I Shipped My Second)"
+description: "How building my second micro-SaaS, PageWeight, taught me the value of shipping functional developer tools early instead of over-engineering the 'perfect' SaaS."
+publishDate: "2026-06-19"
+author: "ohwire"
+authorImage: "/images/avatar.jpeg"
+category: "SaaS"
+image: "/images/posts/pageweight-banner.jpg"
+imageAlt: "Terminal showing a PageWeight performance budget check command line"
+featured: true
+---
+
+import { Code } from "astro-expressive-code/components";
+
+Developers often keep half-finished side projects with authentication, billing integrations, and complex settings but zero active users. For me, that project is Pocketed.
+
+Pocketed is a mobile-first progressive web app. It lets users save videos from TikTok, Instagram, or YouTube and locate them using AI-powered tagging and search. Platform-native save features are often buried and unsearchable. Pocketed solves this by creating a single home for saved videos.
+
+I spent months developing Pocketed. I integrated Clerk, set up Stripe, built Framer Motion animations, and refined the design. However, I delayed the launch to add more features and improve the search. Pocketed remains unreleased.
+
+When building my second micro-SaaS, PageWeight, I decided to change my approach. I avoided over-engineering. I focused on shipping a functional command-line utility first.
+
+---
+
+## The Problem: Web Bloat and LCP
+
+Web performance affects conversion rates. If a website takes longer than three seconds to load, half of the visitors leave the page.
+
+The primary cause of slow load times is media bloat. Developers deploy large images and video files without compression. This degrades Largest Contentful Paint (LCP), a Core Web Vital that affects search engine rankings.
+
+Auditing media files manually is slow. For PageWeight, the long-term plan is a SaaS crawler. It will scan sites using headless browsers to generate white-label PDF performance audits for agencies.
+
+However, building a complete SaaS with background workers and database configurations takes time. To avoid development delays, I built a simple CLI tool and a GitHub Action instead.
+
+---
+
+## Building the Performance Gate
+
+The performance gate prevents bloated files from reaching production. We built a Python CLI tool that scans directories and evaluates files against a performance budget.
+
+Developers place a `pageweight.json` configuration file in the project root:
+
+<Code
+  code={`{
+  "maxImageSizeKB": 500,
+  "maxVideoSizeMB": 5,
+  "maxWidthPx": 2000,
+  "scanDirs": ["public", "src/assets"]
+}`}
+  lang="json"
+  title="pageweight.json"
+/>
+
+The CLI traverses the folders and validates images and videos.
+
+To keep the tool fast, we avoided using heavy libraries like OpenCV or Pillow. PageWeight uses the `imagesize` library to read image headers. This allows the CLI to extract width and height without loading the full file into memory:
+
+<Code
+  code={`import os
+import imagesize
+
+def check_image_width(file_path, max_width):
+    try:
+        # Fast metadata extraction without loading the full image
+        width, height = imagesize.get(file_path)
+        if width > max_width:
+            return False, f"Width ({width}px) exceeds budget of {max_width}px"
+        return True, "PASS"
+    except Exception as e:
+        return False, f"Could not parse image dimensions: {str(e)}"
+`}
+  lang="python"
+  title="pageweight-cli/scanner.py"
+/>
+
+If an asset violates the budget, the CLI returns exit code 1.
+
+---
+
+## Automating the Build Gate
+
+The CLI is packaged as a Docker-based GitHub Action. When a developer opens a pull request, the performance gate runs before the build phase. If an image exceeds the budget, the build fails and prevents the merge.
+
+Here is the configuration for the GitHub Actions deployment workflow:
+
+<Code
+  code={`name: Deploy Website
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # Run PageWeight check BEFORE Astro build
+      - name: Run PageWeight Budget Check
+        uses: ohwiredev/pageweight/pageweight-cli@main
+        with:
+          config-path: "pageweight.json"
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build Site
+        run: npm run build
+`}
+  lang="yaml"
+  title=".github/workflows/deploy.yml"
+/>
+
+---
+
+## Shipping is a Feature
+
+The SaaS crawler and custom reports are still in development, but the CLI tool is functional and active.
+
+Building PageWeight demonstrated that shipping early is essential for success. It helped resolve analysis paralysis, created a working tool, and established the engine for the future SaaS product.
+
+For developers struggling to launch a project, the solution is to remove unnecessary features like dashboards, auth, and billing. Identify the core command-line utility or API, build it, and launch it.
+
+*PageWeight CLI is open source. You can check it out and add it to your repo today. What is holding back your first project? Let me know in the comments below!*
