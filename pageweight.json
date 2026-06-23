@@ -1,6 +1,0 @@
-{
-	"maxImageSizeKB": 300,
-	"maxVideoSizeMB": 10,
-	"maxWidthPx": 2500,
-	"scanDirs": ["public"]
-}
