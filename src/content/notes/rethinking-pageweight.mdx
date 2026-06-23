@@ -1,0 +1,49 @@
+---
+title: "Rethinking PageWeight After Just Six Days"
+description: "Why I decided to pivot my new SaaS project away from a complex web crawler and focus on a GitHub Action instead."
+publishDate: "2026-06-24"
+author: "ohwire"
+authorImage: "/images/avatar.jpeg"
+category: "SaaS"
+image: "/images/posts/rethinking-pageweight-cat.jpg"
+imageAlt: "A meme of a cat overwhelmed by complex server diagrams while thinking about a simple GitHub Action"
+featured: false
+---
+
+import { Code } from "astro-expressive-code/components";
+
+It's only been six days since I started working on PageWeight, and I'm already rethinking the entire project. 
+
+If you read my previous post, you know the grand vision for PageWeight: a robust SaaS crawler that uses headless browsers to scan entire websites and generate white-label PDF performance audits. It sounded like the perfect, feature-rich platform to build.
+
+But the deeper I got into the planning and early development, the more I realized I was getting way in over my head. 
+
+The project was just too complicated. The amount of moving parts required to build a reliable web scraping engine that handles thousands of pages, analyzes the results, and presents them beautifully is staggering. I found myself staring down the barrel of infrastructure nightmares, edge cases with dynamic content, and a timeline that was stretching from weeks into months.
+
+---
+
+## The Pivot to Simplicity
+
+While taking a step back to breathe, I remembered a small part of my initial idea: a CLI tool and GitHub Action that developers could add directly to their CI/CD pipelines to catch bloated assets before they reach production. 
+
+I started thinking: you can find website audit tools everywhere on the internet. There's Google Lighthouse, GTmetrix, WebPageTest... the list goes on. Another web-based scanner is just a drop in the ocean. 
+
+But a seamless, low-friction GitHub Action that fails a pull request if an image is too large? That's actually useful. That solves a problem where it happens—at the developer level.
+
+Instead of building a massive SaaS that requires users to remember to log in and run scans, what if I iterate on the CI/CD integration and make it the core product? 
+
+---
+
+## Am I Just Chasing Shiny Things?
+
+I have to be honest: I don't know if this is a good idea. 
+
+Changing the entire direction of a project just six days in, without having fully implemented the original vision, feels a lot like I might be falling into the same trap that kept my first project, Pocketed, unreleased. 
+
+Is this a strategic pivot, or am I just avoiding the hard work? Am I chasing something new because I don't really know what I'm doing? I have to take responsibility for the fact that I might just be running from the complexity rather than facing it head-on.
+
+But on the other hand, the best tools are often born from simplifying a complex problem. By narrowing the scope from an entire auditing platform to a single, highly effective GitHub Action, I'm drastically reducing the time to launch. 
+
+I'm forcing myself to build something tangible and put it in front of users quickly. If it fails, I fail fast. If it succeeds, I have a solid foundation to build upon.
+
+For now, PageWeight is no longer a crawler. It's a performance gate for your repository. I'll let you know in a few weeks if this pivot was a stroke of genius or just another distraction.
