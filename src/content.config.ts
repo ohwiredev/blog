@@ -21,6 +21,19 @@ const notesCollection = defineCollection({
 	}),
 });
 
+const skillsCollection = defineCollection({
+	loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/skills" }),
+	schema: z.object({
+		title: z.string(),
+		description: z.string(),
+		role: z.string(),
+		color: z.string(),
+		githubUrl: z.string().url(),
+		iconPath: z.string(),
+	}),
+});
+
 export const collections = {
 	notes: notesCollection,
+	skills: skillsCollection,
 };
