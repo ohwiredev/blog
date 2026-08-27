@@ -22,7 +22,7 @@ export async function getStaticPaths() {
 	for (const note of notes) {
 		if (!isValidCategory(note.data.category)) {
 			throw new Error(
-				`[Invalid Category] The blog post "${note.id}" has an invalid category "${note.data.category}". Allowed categories are: ${CATEGORIES.join(", ")}`,
+				`[Invalid Category] The note "${note.id}" has an invalid category "${note.data.category}". Allowed categories are: ${CATEGORIES.join(", ")}`,
 			);
 		}
 	}
@@ -45,7 +45,7 @@ const allNotes = await getCollection("notes");
 for (const note of allNotes) {
 	if (!isValidCategory(note.data.category)) {
 		throw new Error(
-			`[Invalid Category] The blog post "${note.id}" has an invalid category "${note.data.category}". Allowed categories are: ${CATEGORIES.join(", ")}`,
+			`[Invalid Category] The note "${note.id}" has an invalid category "${note.data.category}". Allowed categories are: ${CATEGORIES.join(", ")}`,
 		);
 	}
 }
@@ -372,12 +372,55 @@ const mailtoUrl = `mailto:?subject=${emailSubject}&body=${emailBody}`;
       margin-top: 3rem;
       margin-bottom: 1.5rem;
     }
+    .prose-editorial h3 {
+      font-family: var(--font-headline-sm);
+      font-size: var(--text-headline-sm);
+      color: var(--color-on-surface);
+      margin-top: 2.25rem;
+      margin-bottom: 1rem;
+    }
     .prose-editorial p {
       margin-bottom: 1.5rem;
     }
     .prose-editorial a {
       color: var(--color-primary);
       text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    .prose-editorial ul,
+    .prose-editorial ol {
+      margin-bottom: 1.5rem;
+      padding-left: 1.5rem;
+    }
+    .prose-editorial ul {
+      list-style-type: disc;
+    }
+    .prose-editorial ol {
+      list-style-type: decimal;
+    }
+    .prose-editorial li {
+      margin-bottom: 0.5rem;
+    }
+    .prose-editorial strong {
+      color: var(--color-on-surface);
+      font-weight: 600;
+    }
+    .prose-editorial hr {
+      border: 0;
+      border-top: 1px solid var(--color-outline-variant);
+      margin: 3rem 0;
+      opacity: 0.5;
+    }
+    .prose-editorial :not(pre) > code {
+      font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.85em;
+      font-weight: 500;
+      color: var(--color-on-surface);
+      background-color: var(--color-surface-container-highest);
+      padding: 0.2em 0.45em;
+      border-radius: 0.375rem;
+      border: 1px solid var(--color-outline-variant);
+      word-break: break-word;
     }
   </style>
 </Layout>

@@ -15,7 +15,7 @@ const allNotes = await getCollection("notes");
 for (const note of allNotes) {
 	if (!isValidCategory(note.data.category)) {
 		throw new Error(
-			`[Invalid Category] The blog post "${note.id}" has an invalid category "${note.data.category}". Allowed categories are: ${CATEGORIES.join(", ")}`,
+			`[Invalid Category] The note "${note.id}" has an invalid category "${note.data.category}". Allowed categories are: ${CATEGORIES.join(", ")}`,
 		);
 	}
 }
@@ -47,7 +47,7 @@ const recentNotes = allNotes
     <div
       class="flex flex-col sm:flex-row gap-4 opacity-0 animate-fade-up delay-200"
     >
-      <Button href="#blog-section" variant="primary" size="lg">
+      <Button href="#notes-section" variant="primary" size="lg">
         Start reading
       </Button>
       <Button href="#newsletter-section" variant="outline" size="lg">
@@ -76,16 +76,16 @@ const recentNotes = allNotes
   <!-- Tech Stack Section -->
   <TechStack />
 
-  <!-- Blog Grid Section -->
+  <!-- Notes Grid Section -->
   <section
-    id="blog-section"
+    id="notes-section"
     class="px-margin-mobile md:px-margin-desktop pb-section-gap max-w-container-max mx-auto scroll-mt-24"
   >
     <div class="reveal flex justify-between items-end mb-12">
       <h2 class="font-headline-md text-headline-md">Recent Notes</h2>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter" id="blog-grid">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter" id="notes-grid">
       {
         recentNotes.map((post) => (
           <a
@@ -134,7 +134,7 @@ const recentNotes = allNotes
 
       currentEntries.forEach((entry, index) => {
         // If they are part of a grid, stagger them
-        const isGridItem = entry.target.parentElement?.id === "blog-grid" || entry.target.parentElement?.id === "stack-grid";
+        const isGridItem = entry.target.parentElement?.id === "notes-grid" || entry.target.parentElement?.id === "stack-grid";
 
         setTimeout(
           () => {

@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,600;0,700;1,400&family=Instrument+Serif:ital@0;1&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,600;0,700;1,400&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap");
 @import "tailwindcss";
 
 @theme {
@@ -69,6 +69,7 @@
 	--font-headline-md: "Instrument Serif", serif;
 	--font-body-lg: "Instrument Sans", sans-serif;
 	--font-body-md: "Instrument Sans", sans-serif;
+	--font-mono: "JetBrains Mono", ui-monospace, monospace;
 
 	--text-display-lg: 64px;
 	--text-display-lg--font-weight: 400;
@@ -99,6 +100,13 @@ body {
 	background-color: var(--color-background);
 	color: var(--color-on-background);
 	-webkit-font-smoothing: antialiased;
+}
+
+code,
+kbd,
+samp,
+pre {
+	font-family: var(--font-mono);
 }
 
 .reveal {

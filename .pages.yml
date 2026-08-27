@@ -1,0 +1,65 @@
+media:
+  input: public/images/posts
+  output: /images/posts
+
+content:
+  - name: notes
+    label: Notes
+    type: collection
+    path: src/content/notes
+    view:
+      primary: title
+      sort: publishDate
+      order: desc
+    fields:
+      - name: title
+        label: Title
+        type: string
+        required: true
+
+      - name: description
+        label: Description
+        type: string
+        required: true
+
+      - name: publishDate
+        label: Publish date
+        type: date
+        required: true
+
+      - name: author
+        label: Author
+        type: string
+        default: ohwire
+
+      - name: authorImage
+        label: Author image
+        type: string
+        default: /images/avatar.jpeg
+
+      - name: category
+        label: Category
+        type: select
+        options:
+          values:
+            - Setup
+            - Notes
+            - Tools
+            - SaaS
+
+      - name: image
+        label: Cover image
+        type: image
+
+      - name: imageAlt
+        label: Image alt text
+        type: string
+
+      - name: featured
+        label: Featured
+        type: boolean
+        default: false
+
+      - name: body
+        label: Content
+        type: rich-text

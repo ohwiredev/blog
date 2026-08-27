@@ -14,5 +14,15 @@ export default defineConfig({
 		plugins: [tailwindcss()],
 	},
 
-	integrations: [expressiveCode(), mdx(), sitemap()],
+	integrations: [
+		expressiveCode({
+			styleOverrides: {
+				codeFontFamily:
+					"'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace",
+				uiFontFamily: "'Instrument Sans', sans-serif",
+			},
+		}),
+		mdx(),
+		sitemap(),
+	],
 });

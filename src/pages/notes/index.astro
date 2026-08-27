@@ -14,7 +14,7 @@ const allNotes = await getCollection("notes");
 for (const note of allNotes) {
 	if (!isValidCategory(note.data.category)) {
 		throw new Error(
-			`[Invalid Category] The blog post "${note.id}" has an invalid category "${note.data.category}". Allowed categories are: ${CATEGORIES.join(", ")}`,
+			`[Invalid Category] The note "${note.id}" has an invalid category "${note.data.category}". Allowed categories are: ${CATEGORIES.join(", ")}`,
 		);
 	}
 }
@@ -189,9 +189,8 @@ const usedCategories = Array.from(
 
     .category-pill.active {
       background-color: var(--color-primary);
-      color: var(--color-on-secondary);
+      color: #ffffff;
       border-color: var(--color-primary);
-      box-shadow: 0 4px 12px rgba(169, 56, 0, 0.25);
     }
 
     /* Rotate sort icon transition */
