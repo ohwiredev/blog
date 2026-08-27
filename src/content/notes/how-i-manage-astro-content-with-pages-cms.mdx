@@ -1,15 +1,16 @@
 ---
-title: "How I Manage Astro Content with Pages CMS"
-description: "Most headless CMS setups are overkill for static sites. Here is how I configure Pages CMS and use it daily to edit Astro content directly on GitHub."
-publishDate: "2026-08-27"
-author: "ohwire"
-authorImage: "/images/avatar.jpeg"
-category: "Tools"
-image: "/images/posts/pages-cms.png"
-imageAlt: "Pages CMS interface showing the visual editor and content management"
+title: How I Manage Astro Content with Pages CMS
+description: Most headless CMS setups are overkill for static sites. Here is how
+  I configure Pages CMS and use it daily to edit Astro content directly on
+  GitHub.
+publishDate: 2026-08-27
+author: ohwire
+authorImage: /images/avatar.jpeg
+category: Tools
+image: /images/posts/pages-cms.png
+imageAlt: Pages CMS interface showing the visual editor and content management
 featured: false
 ---
-
 import { Code } from "astro-expressive-code/components";
 
 Static sites built with Astro are fast, simple, and cheap to run. You keep your content in Markdown files, commit them to Git, and let your build step handle the rest. This workflow works well when you sit at your desk with your code editor open. It breaks down the moment you want to fix a typo from your phone, write a quick draft on a tablet, or let a non-developer edit a page.
@@ -40,70 +41,63 @@ Here is the exact configuration I use for this blog:
   output: /images
 
 content:
-  - name: notes
-    label: Notes
-    type: collection
-    path: src/content/notes
-    filename: "{primary}.mdx"
-    view:
-      fields: [title, description, publishDate]
-      primary: title
-      sort: [publishDate, title]
-      default:
-        sort: publishDate
-        order: desc
-    fields:
-      - name: title
-        label: Title
-        type: string
-        required: true
 
-      - name: description
-        label: Description
-        type: text
-        required: true
+- name: notes
+label: Notes
+type: collection
+path: src/content/notes
+filename: "{primary}.mdx"
+view:
+  fields: [title, description, publishDate]
+  primary: title
+  sort: [publishDate, title]
+  default:
+sort: publishDate
+order: desc
+fields:
+  - name: title
+  label: Title
+  type: string
+  required: true
+  - name: description
+  label: Description
+  type: text
+  required: true
+  - name: publishDate
+  label: Publish date
+  type: date
+  required: true
+  - name: author
+  label: Author
+  type: string
+  default: ohwire
+  - name: authorImage
+  label: Author image
+  type: string
+  default: /images/avatar.jpeg
+  - name: category
+  label: Category
+  type: select
+  options:
+    values:
+  - Setup
+  - Notes
+  - Tools
+  - SaaS
+  - name: image
+  label: Cover image
+  type: image
+  - name: imageAlt
+  label: Image alt text
+  type: string
+  - name: featured
+  label: Featured
+  type: boolean
+  default: false
+  - name: body
+  label: Content
+  type: rich-text`}
 
-      - name: publishDate
-        label: Publish date
-        type: date
-        required: true
-
-      - name: author
-        label: Author
-        type: string
-        default: ohwire
-
-      - name: authorImage
-        label: Author image
-        type: string
-        default: /images/avatar.jpeg
-
-      - name: category
-        label: Category
-        type: select
-        options:
-          values:
-            - Setup
-            - Notes
-            - Tools
-            - SaaS
-
-      - name: image
-        label: Cover image
-        type: image
-
-      - name: imageAlt
-        label: Image alt text
-        type: string
-
-      - name: featured
-        label: Featured
-        type: boolean
-        default: false
-
-      - name: body
-        label: Content
-        type: rich-text`}
 />
 
 ## Mapping cleanly to Astro content collections
