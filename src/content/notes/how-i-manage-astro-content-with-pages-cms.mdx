@@ -36,18 +36,22 @@ Here is the exact configuration I use for this blog:
   lang="yaml"
   title=".pages.yml"
   code={`media:
-  input: public/images/posts
-  output: /images/posts
+  input: public/images
+  output: /images
 
 content:
   - name: notes
     label: Notes
     type: collection
     path: src/content/notes
+    filename: "{primary}.mdx"
     view:
+      fields: [title, description, publishDate]
       primary: title
-      sort: publishDate
-      order: desc
+      sort: [publishDate, title]
+      default:
+        sort: publishDate
+        order: desc
     fields:
       - name: title
         label: Title
@@ -56,7 +60,7 @@ content:
 
       - name: description
         label: Description
-        type: string
+        type: text
         required: true
 
       - name: publishDate
