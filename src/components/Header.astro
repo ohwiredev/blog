@@ -1,9 +1,9 @@
 ---
 import { ChevronRight, Menu, Moon, Sun, X } from "@lucide/astro";
+import { baseUrl } from "../utils";
 import Button from "./Button.astro";
 
 const { pathname } = Astro.url;
-const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
 const relativePathname = baseUrl ? pathname.replace(baseUrl, "") : pathname;
 const normalizedPathname = relativePathname.replace(/\/$/, "");
 

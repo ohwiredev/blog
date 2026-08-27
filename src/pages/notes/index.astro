@@ -5,6 +5,7 @@ import { ArrowUpDown, Frown } from "@lucide/astro";
 import Newsletter from "../../components/Newsletter.astro";
 import { CATEGORIES, isValidCategory } from "../../config/categories";
 import Layout from "../../layouts/Layout.astro";
+import { baseUrl, formatDate, getImagePath } from "../../utils";
 
 // Fetch all notes from content collection
 const allNotes = await getCollection("notes");
@@ -27,21 +28,12 @@ const sortedNotes = [...allNotes].sort(
 const usedCategories = Array.from(
 	new Set(allNotes.map((note) => note.data.category)),
 ).sort();
-
-const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
-
-const getImagePath = (path?: string) => {
-	if (!path) return "";
-	if (path.startsWith("/")) {
-		return `${baseUrl}${path}`;
-	}
-	return path;
-};
 ---
 
 <Layout
   title="Notes | ohwire"
   description="Everything I've learned, written down before I forget it."
+  image="/images/og/og-notes-index.webp"
 >
   <!-- Header Section -->
   <section
@@ -143,11 +135,7 @@ const getImagePath = (path?: string) => {
                 {post.data.description}
               </p>
               <p class="font-label-md text-[12px] text-secondary/70 uppercase tracking-wider">
-                {post.data.publishDate.toLocaleDateString("en-US", {
-                  month: "short",
-                  day: "numeric",
-                  year: "numeric",
-                })}
+                {formatDate(post.data.publishDate)}
               </p>
             </a>
           </article>
