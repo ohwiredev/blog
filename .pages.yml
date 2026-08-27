@@ -64,6 +64,11 @@ content:
         type: boolean
         default: false
 
+      - name: draft
+        label: Draft
+        type: boolean
+        default: true
+
       - name: body
         label: Content
         type: rich-text

@@ -16,7 +16,10 @@ import Layout from "../../layouts/Layout.astro";
 import { baseUrl, formatDate, getImagePath, getReadingTime } from "../../utils";
 
 export async function getStaticPaths() {
-	const notes = await getCollection("notes");
+	const notes = await getCollection(
+		"notes",
+		({ data }) => import.meta.env.DEV || !data.draft,
+	);
 
 	// Validate categories at build/run time
 	for (const note of notes) {
@@ -39,7 +42,10 @@ const { Content } = await render(post);
 const readTime = post.data.readTime || getReadingTime(post.body || "");
 
 // Fetch related articles (excluding the current one)
-const allNotes = await getCollection("notes");
+const allNotes = await getCollection(
+	"notes",
+	({ data }) => import.meta.env.DEV || !data.draft,
+);
 
 // Validate related notes categories at build/run time
 for (const note of allNotes) {

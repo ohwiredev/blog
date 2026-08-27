@@ -10,6 +10,7 @@ category: Tools
 image: /images/posts/pages-cms.png
 imageAlt: Pages CMS interface showing the visual editor and content management
 featured: false
+draft: false
 ---
 import { Code } from "astro-expressive-code/components";
 
@@ -102,6 +103,11 @@ content:
         type: boolean
         default: false
 
+      - name: draft
+        label: Draft
+        type: boolean
+        default: true
+
       - name: body
         label: Content
         type: rich-text`}
@@ -136,6 +142,7 @@ const notesCollection = defineCollection({
     image: z.string().optional(),
     imageAlt: z.string().optional(),
     featured: z.boolean().default(false),
+    draft: z.boolean().default(true),
   }),
 });`}
 />

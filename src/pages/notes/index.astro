@@ -8,7 +8,10 @@ import Layout from "../../layouts/Layout.astro";
 import { baseUrl, formatDate, getImagePath } from "../../utils";
 
 // Fetch all notes from content collection
-const allNotes = await getCollection("notes");
+const allNotes = await getCollection(
+	"notes",
+	({ data }) => import.meta.env.DEV || !data.draft,
+);
 
 // Validate categories at build/run time
 for (const note of allNotes) {
