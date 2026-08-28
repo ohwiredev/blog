@@ -1,0 +1,86 @@
+---
+title: "Why Ranking Doesn't Matter If ChatGPT Never Quotes You"
+description: "I just started digging into Answer Engine Optimization. Here is what I learned about how LLMs cite content and what I am changing on my blog."
+publishDate: "2026-08-28"
+author: "ohwire"
+authorImage: "/images/avatar.jpeg"
+category: "Notes"
+image: "/images/hero-workspace.jpg"
+imageAlt: "Search engine optimization and AI chat query results"
+featured: false
+draft: true
+---
+
+import { Code } from "astro-expressive-code/components";
+
+I recently started looking into Answer Engine Optimization (AEO). I thought it was just a marketing buzzword. But after seeing how modern search assistants work, I realized I needed to rethink how I write and structure my notes.
+
+**TL;DR:** AEO is the practice of making your pages easy for a language model to extract and cite. It isn't a new framework or a separate tech stack. It comes down to putting the direct answer in your opening sentence, adding schema markup, letting crawler bots in, indexing on Bing, and getting mentioned on external sites.
+
+If a model reads your post, uses your answer, and never names your site, you did the research for free.
+
+---
+
+## Wait, what is the zero-click problem?
+
+The zero-click problem happens when AI tools like ChatGPT answer a query directly, skipping the link click entirely. You can rank high on Google, get swallowed by a zero-click AI overview, and end up with exactly zero traffic to your actual site.
+
+I realized why this matters when I looked at my own search habits. Over the past year, I stopped clicking through ten blue links on Google whenever I ran into a weird bug or needed to compare build tools. I started pasting queries straight into ChatGPT or Claude.
+
+Most developers do the exact same thing. The model pulls text from three sites, strips out the fluff, and delivers a clean answer. If my note helped feed that answer, but the model never cited my domain, that post is invisible. No page views, no new readers, no attribution.
+
+---
+
+## How do these search bots actually find answers?
+
+Search bots rely on retrieval-augmented generation (RAG). They query an index, pull out specific text passages, and feed them to the model to synthesize a response. If your answer is buried under six paragraphs of backstory or inside a blank JS shell, they just skip you.
+
+Different assistants rely on different search engines. ChatGPT leans heavily on Bing. Gemini queries Google. Perplexity runs its own scrapers and prioritizes fresh pages. 
+
+---
+
+## How do you optimize a blog for AI crawlers?
+
+To optimize a site for AEO, you basically need to allow AI crawlers in your robots.txt, submit sitemaps to Bing Webmaster Tools, and serve static HTML instead of just client-side JavaScript. Tossing in some JSON-LD schema markup also helps machines parse your structure instantly.
+
+Here are the specific technical changes I implemented:
+
+- Allow AI crawlers in robots.txt. I removed blanket disallow rules for GPTBot, PerplexityBot, and Google-Extended. If a bot can't fetch the page, it can't cite it.
+- Submit sitemaps to Bing Webmaster Tools. I used to only set up Google Search Console. ChatGPT relies on Bing. Ignoring Bing means missing OpenAI citations.
+- Keep the answer in raw HTML. I build this site with Astro, which compiles Markdown directly to static HTML. This helps scrapers that don't execute client-side JavaScript.
+- Add structured JSON-LD schema. I'm adding Article and Organization schema markup so machines can parse the content structure without guessing.
+- Stick to one clear concept per URL. Guides that cover ten separate topics create confusing retrieval chunks. Short, focused pages match specific queries much better.
+- Look into an llms.txt file. I might add a plain text directory of site summaries later so smaller agents can index the site easily.
+
+---
+
+## How should you format your writing for AI models?
+
+You format writing by turning headings into the actual questions people search for, then dropping a 40-to-60 word direct answer immediately below it. Throwing in specific numbers, dates, and named sources helps too, because models prefer concrete facts over vague commentary.
+
+Here are the rules I'm trying to stick to for new posts:
+
+- Write headings as questions I'd actually type into a search bar. Instead of vague labels like Configuration Notes, I use "How do you configure Biome with Astro?".
+- Put a 40 to 60 word answer directly below each heading. The first sentence gives the direct solution. The rest explains the reason.
+- Include specific numbers, dates, and named sources. Models extract concrete facts much faster than vague commentary. A line stating that Astro 5 reduced memory usage by 28 percent in late 2024 gets quoted before a sentence saying a tool is fast.
+- Keep the author name and last updated date visible near the top. Models look for freshness signals to decide which passage to use.
+
+---
+
+## Why does external validation matter for AEO?
+
+External validation matters because language models look for consensus across multiple domains before trusting a claim. If several GitHub repos or Reddit threads reference your post, the model is way more likely to trust and cite your content over some random isolated claim.
+
+The biggest surprise was learning that on-page optimization is only part of the equation. Language models don't just trust what you say on your domain. I can clean up my HTML all day, but if nobody mentions my notes, the model treats them as unverified claims. External validation matters as much as clean markup.
+
+---
+
+## How can you test if AEO even works?
+
+You can test AEO by manually running specific queries through ChatGPT, Claude, and Perplexity every month and logging the results. Analytics dashboards won't track zero-click AI reads, so you have to manually check if models actually cite your site or steal your exact phrasing.
+
+To see if any of this works, I built a spreadsheet with twenty specific prompts in my niche. Once a month, I plan to run those queries through the major AI tools. 
+
+If a post gets zero citations after two months, I'll rewrite the opening paragraph and tighten the heading questions.
+
+
