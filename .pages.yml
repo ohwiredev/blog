@@ -1,6 +1,7 @@
 media:
   input: public/images
   output: /images
+  rename: safe
 
 content:
   - name: notes
