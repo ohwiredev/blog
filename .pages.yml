@@ -1,6 +1,6 @@
 media:
   input: public/images
-  output: /images/posts
+  output: /images
   rename: safe
 
 content:
