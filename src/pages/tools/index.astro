@@ -74,14 +74,9 @@ const allTools = (await getCollection("tools")).sort(
                       {tool.data.category}
                     </span>
                   </div>
-                  <p class="font-body-md text-body-md text-secondary mb-3">
+                  <p class="font-body-md text-body-md text-secondary mb-5">
                     {tool.data.description}
                   </p>
-                  {tool.body && (
-                    <p class="font-body-md text-[14px] leading-relaxed text-secondary/80 mb-5">
-                      {tool.body.trim()}
-                    </p>
-                  )}
 
                   {tool.data.stack.length > 0 && (
                     <ul class="flex flex-wrap gap-2 mb-6 list-none p-0">

@@ -8,7 +8,5 @@ image: "/images/posts/shareframe-studio.jpg"
 imageAlt: "Shareframe editor showing template controls and a live OG image preview"
 stack: ["React", "TypeScript", "Canvas 2D", "Tailwind CSS"]
 note: "a-simple-og-image-tool-i-built-for-client-work"
-order: 1
+order: 2
 ---
-
-13 built-in templates for SaaS, blog and changelog cards, custom logos, full typography control, and PNG, JPG or WebP export. No watermarks, no signups.

@@ -7,7 +7,5 @@ liveUrl: "https://bg-remover.ohwire.xyz"
 image: "/images/tools/bg-remover.webp"
 imageAlt: "BG Remover interface with a cutout subject on a transparent background"
 stack: ["React", "TypeScript", "WebGPU", "Tailwind CSS"]
-order: 2
+order: 1
 ---
-
-One-click removal with Fast, Balanced and Best models, edge cleanup, an erase/restore brush with undo, crop to subject, and export as PNG, WebP or JPEG.
