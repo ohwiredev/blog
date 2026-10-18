@@ -15,7 +15,9 @@ export const GET: APIRoute = async ({ site }) => {
 		(a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf(),
 	);
 
-	const allSkills = await getCollection("skills");
+	const allTools = (await getCollection("tools")).sort(
+		(a, b) => a.data.order - b.data.order,
+	);
 
 	const sections: string[] = [
 		"# ohwire - Full Content Archive",
@@ -43,19 +45,24 @@ export const GET: APIRoute = async ({ site }) => {
 		sections.push("");
 	}
 
-	if (allSkills.length > 0) {
+	if (allTools.length > 0) {
 		sections.push("---");
 		sections.push("");
-		sections.push("## Agentic Skills");
+		sections.push("## Tools");
 		sections.push("");
-		for (const skill of allSkills) {
-			sections.push(`### ${skill.data.title}`);
-			sections.push(`- **Role**: ${skill.data.role}`);
-			sections.push(`- **Description**: ${skill.data.description}`);
-			sections.push(`- **Repository**: ${skill.data.githubUrl}`);
-			if (skill.body) {
+		for (const tool of allTools) {
+			sections.push(`### ${tool.data.title}`);
+			sections.push(`- **Description**: ${tool.data.description}`);
+			if (tool.data.liveUrl) {
+				sections.push(`- **Live**: ${tool.data.liveUrl}`);
+			}
+			sections.push(`- **Repository**: ${tool.data.githubUrl}`);
+			if (tool.data.stack.length > 0) {
+				sections.push(`- **Stack**: ${tool.data.stack.join(", ")}`);
+			}
+			if (tool.body) {
 				sections.push("");
-				sections.push(skill.body.trim());
+				sections.push(tool.body.trim());
 			}
 			sections.push("");
 		}

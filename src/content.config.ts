@@ -22,19 +22,23 @@ const notesCollection = defineCollection({
 	}),
 });
 
-const skillsCollection = defineCollection({
-	loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/skills" }),
+const toolsCollection = defineCollection({
+	loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/tools" }),
 	schema: z.object({
 		title: z.string(),
 		description: z.string(),
-		role: z.string(),
-		color: z.string(),
+		category: z.string(),
 		githubUrl: z.string().url(),
-		iconPath: z.string(),
+		liveUrl: z.string().url().optional(),
+		image: z.string().optional(),
+		imageAlt: z.string().optional(),
+		stack: z.array(z.string()).default([]),
+		note: z.string().optional(),
+		order: z.number().default(0),
 	}),
 });
 
 export const collections = {
 	notes: notesCollection,
-	skills: skillsCollection,
+	tools: toolsCollection,
 };

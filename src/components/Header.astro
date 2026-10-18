@@ -11,8 +11,8 @@ const isHome =
 	normalizedPathname === "" || normalizedPathname === "/index.html";
 const isNotes =
 	normalizedPathname === "/notes" || normalizedPathname.startsWith("/notes/");
-const isSkills =
-	normalizedPathname === "/skills" || normalizedPathname.startsWith("/skills/");
+const isTools =
+	normalizedPathname === "/tools" || normalizedPathname.startsWith("/tools/");
 ---
 
 <nav
@@ -50,13 +50,13 @@ const isSkills =
       </a>
       <a
         class={`px-4 py-1.5 rounded-full font-label-md text-label-md transition-[color,background-color,transform] duration-150 ease-[var(--ease-custom-out)] active:scale-[0.97] no-underline select-none ${
-          isSkills
+          isTools
             ? "bg-primary/10 text-primary dark:bg-primary/15 font-semibold"
             : "text-secondary dark:text-secondary-fixed-dim hover:text-primary hover:bg-secondary/5 dark:hover:bg-secondary-container/10"
         }`}
-        href={`${baseUrl}/skills`}
+        href={`${baseUrl}/tools`}
       >
-        Skills
+        Tools
       </a>
     </div>
     <div class="flex items-center gap-4">
@@ -148,11 +148,11 @@ const isSkills =
     </a>
     <a
       class={`text-xl font-semibold font-label-md no-underline py-3 px-4 rounded-xl transition-[color,background-color,transform] duration-150 ease-[var(--ease-custom-out)] active:scale-[0.97] flex items-center justify-between ${
-        isSkills ? "bg-primary/10 text-primary font-bold" : "text-on-surface hover:bg-secondary/5"
+        isTools ? "bg-primary/10 text-primary font-bold" : "text-on-surface hover:bg-secondary/5"
       }`}
-      href={`${baseUrl}/skills`}
+      href={`${baseUrl}/tools`}
     >
-      <span>Skills</span>
+      <span>Tools</span>
       <ChevronRight class="w-4 h-4 opacity-50" />
     </a>
     <div class="pt-2">

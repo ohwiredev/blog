@@ -73,3 +73,66 @@ content:
       - name: body
         label: Content
         type: rich-text
+
+  - name: tools
+    label: Tools
+    type: collection
+    path: src/content/tools
+    filename: "{primary}.md"
+    view:
+      fields: [title, category, order]
+      primary: title
+      sort: [order, title]
+      default:
+        sort: order
+        order: asc
+    fields:
+      - name: title
+        label: Title
+        type: string
+        required: true
+
+      - name: description
+        label: Description
+        type: text
+        required: true
+
+      - name: category
+        label: Category
+        type: string
+        required: true
+
+      - name: githubUrl
+        label: GitHub URL
+        type: string
+        required: true
+
+      - name: liveUrl
+        label: Live URL
+        type: string
+
+      - name: image
+        label: Screenshot
+        type: image
+
+      - name: imageAlt
+        label: Screenshot alt text
+        type: string
+
+      - name: stack
+        label: Stack
+        type: string
+        list: true
+
+      - name: note
+        label: Related note slug
+        type: string
+
+      - name: order
+        label: Order
+        type: number
+        default: 0
+
+      - name: body
+        label: Highlights
+        type: text

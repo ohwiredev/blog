@@ -15,7 +15,9 @@ export const GET: APIRoute = async ({ site }) => {
 		(a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf(),
 	);
 
-	const allSkills = await getCollection("skills");
+	const allTools = (await getCollection("tools")).sort(
+		(a, b) => a.data.order - b.data.order,
+	);
 
 	const lines: string[] = [
 		"# ohwire",
@@ -34,14 +36,14 @@ export const GET: APIRoute = async ({ site }) => {
 		lines.push(`- [${note.data.title}](${noteUrl}): ${description}`);
 	}
 
-	if (allSkills.length > 0) {
+	if (allTools.length > 0) {
 		lines.push("");
-		lines.push("## Skills");
+		lines.push("## Tools");
 		lines.push("");
-		for (const skill of allSkills) {
-			const skillUrl = `${baseUrl}/skills`;
+		for (const tool of allTools) {
+			const toolUrl = tool.data.liveUrl ?? tool.data.githubUrl;
 			lines.push(
-				`- [${skill.data.title}](${skillUrl}): ${skill.data.description} (${skill.data.role})`,
+				`- [${tool.data.title}](${toolUrl}): ${tool.data.description} (Source: ${tool.data.githubUrl})`,
 			);
 		}
 	}
